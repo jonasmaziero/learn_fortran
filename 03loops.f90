@@ -100,7 +100,7 @@ integer j, F1, F2, F, n
   fibonacci = F
 end function
 !------------------------------------------------------------------------------------------------------------------------------------
-recursive function fibrec(n) result(fib)
+recursive function fibrec(n) result(fib)  ! Implementação recursiva da Fibonacci
   implicit none
   integer :: fib, n
 

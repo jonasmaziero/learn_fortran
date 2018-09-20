@@ -4,7 +4,7 @@ program plots
   call plot1D()
 end
 !------------------------------------------------------------------------------------------------------------------------------------
-subroutine plot1D()  ! basic 1D plot with gnuplot from a data file
+subroutine plot1D()  ! Basic 1D plot with gnuplot from a data file
   implicit none
   open(unit=13, file="1Dplot.gnu")
   write(13,*) "reset"
