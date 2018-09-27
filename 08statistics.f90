@@ -1,18 +1,30 @@
 !------------------------------------------------------------------------------------------------------------------------------------
 program estatistica
+  call statistics()
+  !write(*,*) ;  call composto()
+end program
+!------------------------------------------------------------------------------------------------------------------------------------
+subroutine statistics()
   implicit none
   integer, parameter :: d = 6  ! constantes em Fortran
-  real :: dp(d), normalizacao, va(d), media, media2, desvio_padrao
+  real :: dp(d), normalizacao, va(d), media, media2, desvio_padrao, mediana
+
+  !dp(1) = 1.0/6.0;  dp(2) = dp(1); dp(3) = dp(1);  dp(4) = dp(1); dp(5) = dp(1);  dp(6) = dp(1)  ! dado perfeito, teórico
+  call init_gnu();  call simula_dado(10**3,dp);  write(*,*) "dp = ", dp  ! dado real, simulado
+  va = (/ 1, 2, 3, 4, 5, 6 /)  ! valores possíveis da variável aleatória
+  write(*,*) "Soma das probabilidades = ", normalizacao(d, dp)
+  write(*,*) "Média do dado = ", media(d, dp, va)
+  write(*,*) "Média do quadrado do dado = ", media2(d, dp, va)
+  write(*,*) "Desvio padrão do dado= ", desvio_padrao(d, dp, va)
+  write(*,*) "Mediana do dado = ", mediana(d,dp,va)
+
+end subroutine
+!------------------------------------------------------------------------------------------------------------------------------------
+subroutine composto()
+  implicit none
   integer, parameter :: Na = 2, Nb = 2
   real :: A(Na), B(Nb), pab(Na,Nb), covariancia, cov
 
-  dp(1) = 1.0/d;  dp(2) = dp(1); dp(3) = dp(1);  dp(4) = dp(1); dp(5) = dp(1);  dp(6) = dp(1)
-  write(*,*) "Soma das probabilidades = ", normalizacao(d, dp)
-  va = (/ 1, 2, 3, 4, 5, 6 /)
-  write(*,*) "Média do dado = ", media(d, dp, va)
-  write(*,*) "Desvio padrão do dado= ", desvio_padrao(d, dp, va)
-
-  write(*,*)
   A = (/ -1, 1 /)!;  write(*,*) A
   B = (/ -1, 1 /)!;  write(*,*) B
   pab = reshape( (/ (/0.5, 0.0/), &  ! O símbolo & é para continuar um mesmo comando em várias linhas
@@ -20,10 +32,9 @@ program estatistica
   write(*,*) 'Distribuição conjunta de probabilidades'
   call display_array(pab, Na, Nb)
   cov = covariancia(Na, Nb, pab, A, B)
-  write(*,*)'Cov(A,B) = ', cov
+  write(*,*) 'Cov(A,B) = ', cov
 
-
-end program
+end subroutine
 !------------------------------------------------------------------------------------------------------------------------------------
 real function normalizacao(d, dp)
   implicit none
@@ -67,6 +78,23 @@ real function desvio_padrao(d, dp, va)
   real :: dp(d), va(d), media, media2
 
   desvio_padrao = sqrt(media2(d, dp, va) - (media(d, dp, va))**2)
+
+end function
+!------------------------------------------------------------------------------------------------------------------------------------
+function mediana(d,dp,va)
+  implicit none
+  real :: mediana
+  integer :: d, j
+  real :: dp(d), va(d), sp
+
+  sp = 0
+  do j = 1, d
+    sp = sp + dp(j)
+    if (sp >= 0.5) then
+      mediana = va(j)
+      exit
+    endif
+  enddo
 
 end function
 !------------------------------------------------------------------------------------------------------------------------------------
