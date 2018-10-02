@@ -7,6 +7,13 @@ subroutine memalloc()
   implicit none
   integer :: d
   integer, allocatable :: vec(:)
+  real, allocatable :: x
+
+  allocate(x)
+  x = 1.0
+  write(*,*) x
+  deallocate(x)
+  !stop
 
   d = 2
   allocate(vec(d))

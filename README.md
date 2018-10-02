@@ -1,11 +1,11 @@
 # learn_fortran
-- Edição
+- Edição:
 Você pode criar e modificar um programa em algum editor. Como exemplos temos gedit e kate.
 Eu recomendo o Atom, que junto com o Dropbox permite organizar muito bem nossos projetos.
 Sugiro usar Fortran 90, cuja terminação é .f90. Mas quase tudo que veremos vale para
 outras versões (f.95, etc).
 
-- Compilação e execução
+- Compilação e execução:
 O compilador traduz da linguagem que escrevemos para a que pode ser executada no processador (assembly).
 Programas Fortran podem ser compilados com o seguinte comando no terminal (no Linux ou Mac):
 gfortran nome.f90
@@ -16,17 +16,17 @@ gfortran -o nome nome.f90
 Para executar, use
 ./nome
 
-- Comentários
+- Comentários:
 O símbolo ! é utilizado para comentários. O que estiver depois de ! é desconsiderado pelo compilador.
 Em versões antigas do Fortran, se usava c para comentários. Então tenha cuidado para não começar
 linhas com palavras que comecem com c.
 
-- Colunas
+- Colunas:
 Um comando ou conjunto de comandos pode ocupar até a coluna 133. Eu utilizo
 !------------------------------------------------------------------------------------------------------------------------------------
 para ter uma referência em relação a isso.
 
-Alguns comandos Linux:
+Alguns comandos Linux: 
 Para lister o conteúdo de uma pasta use:
 ls
 Para saber o caminho de onde você está use:
