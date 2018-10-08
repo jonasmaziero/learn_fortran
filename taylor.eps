@@ -1,7 +1,7 @@
 %!PS-Adobe-2.0
-%%Title: plot2d.eps
-%%Creator: gnuplot 5.0 patchlevel 6
-%%CreationDate: Fri Oct  5 19:14:07 2018
+%%Title: taylor.eps
+%%Creator: gnuplot 4.6 patchlevel 4
+%%CreationDate: Mon Oct  8 11:55:25 2018
 %%DocumentFonts: (atend)
 %%BoundingBox: 50 50 554 770
 %%Orientation: Landscape
@@ -14,13 +14,12 @@ gnudict begin
 % The following true/false flags may be edited by hand if desired.
 % The unit line width and grayscale image gamma correction may also be changed.
 %
-/Color false def
+/Color true def
 /Blacktext false def
 /Solid false def
 /Dashlength 1 def
 /Landscape true def
 /Level1 false def
-/Level3 false def
 /Rounded false def
 /ClipToBoundingBox false def
 /SuppressPDFMark false def
@@ -32,11 +31,11 @@ gnudict begin
 %
 /vshift -80 def
 /dl1 {
-  10.0 Dashlength userlinewidth gnulinewidth div mul mul mul
+  10.0 Dashlength mul mul
   Rounded { currentlinewidth 0.75 mul sub dup 0 le { pop 0.01 } if } if
 } def
 /dl2 {
-  10.0 Dashlength userlinewidth gnulinewidth div mul mul mul
+  10.0 Dashlength mul mul
   Rounded { currentlinewidth 0.75 mul add } if
 } def
 /hpt_ 31.5 def
@@ -50,7 +49,7 @@ gnudict begin
   } if
 } def
 %
-% Gnuplot Prolog Version 5.1 (Oct 2015)
+% Gnuplot Prolog Version 4.6 (September 2012)
 %
 %/SuppressPDFMark true def
 %
@@ -67,11 +66,11 @@ gnudict begin
 /vpt2 vpt 2 mul def
 /hpt2 hpt 2 mul def
 /Lshow {currentpoint stroke M 0 vshift R 
-	Blacktext {gsave 0 setgray textshow grestore} {textshow} ifelse} def
+	Blacktext {gsave 0 setgray show grestore} {show} ifelse} def
 /Rshow {currentpoint stroke M dup stringwidth pop neg vshift R
-	Blacktext {gsave 0 setgray textshow grestore} {textshow} ifelse} def
+	Blacktext {gsave 0 setgray show grestore} {show} ifelse} def
 /Cshow {currentpoint stroke M dup stringwidth pop -2 div vshift R 
-	Blacktext {gsave 0 setgray textshow grestore} {textshow} ifelse} def
+	Blacktext {gsave 0 setgray show grestore} {show} ifelse} def
 /UP {dup vpt_ mul /vpt exch def hpt_ mul /hpt exch def
   /hpt2 hpt 2 mul def /vpt2 vpt 2 mul def} def
 /DL {Color {setrgbcolor Solid {pop []} if 0 setdash}
@@ -85,7 +84,7 @@ gnudict begin
 /PL {stroke userlinewidth setlinewidth
 	Rounded {1 setlinejoin 1 setlinecap} if} def
 3.8 setmiterlimit
-% Classic Line colors (version 5.0)
+% Default Line colors
 /LCw {1 1 1} def
 /LCb {0 0 0} def
 /LCa {0 0 0} def
@@ -98,21 +97,19 @@ gnudict begin
 /LC6 {0 0 0} def
 /LC7 {1 0.3 0} def
 /LC8 {0.5 0.5 0.5} def
-% Default dash patterns (version 5.0)
-/LTB {BL [] LCb DL} def
+% Default Line Types
 /LTw {PL [] 1 setgray} def
-/LTb {PL [] LCb DL} def
+/LTb {BL [] LCb DL} def
 /LTa {AL [1 udl mul 2 udl mul] 0 setdash LCa setrgbcolor} def
 /LT0 {PL [] LC0 DL} def
-/LT1 {PL [2 dl1 3 dl2] LC1 DL} def
-/LT2 {PL [1 dl1 1.5 dl2] LC2 DL} def
-/LT3 {PL [6 dl1 2 dl2 1 dl1 2 dl2] LC3 DL} def
-/LT4 {PL [1 dl1 2 dl2 6 dl1 2 dl2 1 dl1 2 dl2] LC4 DL} def
-/LT5 {PL [4 dl1 2 dl2] LC5 DL} def
-/LT6 {PL [1.5 dl1 1.5 dl2 1.5 dl1 1.5 dl2 1.5 dl1 6 dl2] LC6 DL} def
-/LT7 {PL [3 dl1 3 dl2 1 dl1 3 dl2] LC7 DL} def
-/LT8 {PL [2 dl1 2 dl2 2 dl1 6 dl2] LC8 DL} def
-/SL {[] 0 setdash} def
+/LT1 {PL [4 dl1 2 dl2] LC1 DL} def
+/LT2 {PL [2 dl1 3 dl2] LC2 DL} def
+/LT3 {PL [1 dl1 1.5 dl2] LC3 DL} def
+/LT4 {PL [6 dl1 2 dl2 1 dl1 2 dl2] LC4 DL} def
+/LT5 {PL [3 dl1 3 dl2 1 dl1 3 dl2] LC5 DL} def
+/LT6 {PL [2 dl1 2 dl2 2 dl1 6 dl2] LC6 DL} def
+/LT7 {PL [1 dl1 2 dl2 6 dl1 2 dl2 1 dl1 2 dl2] LC7 DL} def
+/LT8 {PL [2 dl1 2 dl2 2 dl1 2 dl2 2 dl1 2 dl2 2 dl1 4 dl2] LC8 DL} def
 /Pnt {stroke [] 0 setdash gsave 1 setlinecap M 0 0 V stroke grestore} def
 /Dia {stroke [] 0 setdash 2 copy vpt add M
   hpt neg vpt neg V hpt vpt neg V
@@ -334,14 +331,9 @@ gnudict begin
 %
 /languagelevel where
  {pop languagelevel} {1} ifelse
-dup 2 lt
-	{/InterpretLevel1 true def
-	 /InterpretLevel3 false def}
-	{/InterpretLevel1 Level1 def
-	 2 gt
-	    {/InterpretLevel3 Level3 def}
-	    {/InterpretLevel3 false def}
-	 ifelse }
+ 2 lt
+	{/InterpretLevel1 true def}
+	{/InterpretLevel1 Level1 def}
  ifelse
 %
 % PostScript level 2 pattern fill definitions
@@ -430,17 +422,16 @@ Level1 {Level1PatternFill} {Level2PatternFill} ifelse
 /Symbol-Oblique /Symbol findfont [1 0 .167 1 0 0] makefont
 dup length dict begin {1 index /FID eq {pop pop} {def} ifelse} forall
 currentdict end definefont pop
-%
 /MFshow {
    { dup 5 get 3 ge
      { 5 get 3 eq {gsave} {grestore} ifelse }
      {dup dup 0 get findfont exch 1 get scalefont setfont
      [ currentpoint ] exch dup 2 get 0 exch R dup 5 get 2 ne {dup dup 6
-     get exch 4 get {textshow} {stringwidth pop 0 R} ifelse }if dup 5 get 0 eq
+     get exch 4 get {Gshow} {stringwidth pop 0 R} ifelse }if dup 5 get 0 eq
      {dup 3 get {2 get neg 0 exch R pop} {pop aload pop M} ifelse} {dup 5
      get 1 eq {dup 2 get exch dup 3 get exch 6 get stringwidth pop -2 div
      dup 0 R} {dup 6 get stringwidth pop -2 div 0 R 6 get
-     textshow 2 index {aload pop M neg 3 -1 roll neg R pop pop} {pop pop pop
+     show 2 index {aload pop M neg 3 -1 roll neg R pop pop} {pop pop pop
      pop aload pop M} ifelse }ifelse }ifelse }
      ifelse }
    forall} def
@@ -466,44 +457,16 @@ systemdict /pdfmark known not {
   userdict /pdfmark systemdict /cleartomark get put
 } if
 SDict begin [
-  /Title (plot2d.eps)
+  /Title (taylor.eps)
   /Subject (gnuplot plot)
-  /Creator (gnuplot 5.0 patchlevel 6)
+  /Creator (gnuplot 4.6 patchlevel 4)
   /Author (jonasmaziero)
 %  /Producer (gnuplot)
 %  /Keywords ()
-  /CreationDate (Fri Oct  5 19:14:07 2018)
+  /CreationDate (Mon Oct  8 11:55:25 2018)
   /DOCINFO pdfmark
 end
 } ifelse
-%
-% Support for boxed text - Ethan A Merritt May 2005
-%
-/InitTextBox { userdict /TBy2 3 -1 roll put userdict /TBx2 3 -1 roll put
-           userdict /TBy1 3 -1 roll put userdict /TBx1 3 -1 roll put
-	   /Boxing true def } def
-/ExtendTextBox { Boxing
-    { gsave dup false charpath pathbbox
-      dup TBy2 gt {userdict /TBy2 3 -1 roll put} {pop} ifelse
-      dup TBx2 gt {userdict /TBx2 3 -1 roll put} {pop} ifelse
-      dup TBy1 lt {userdict /TBy1 3 -1 roll put} {pop} ifelse
-      dup TBx1 lt {userdict /TBx1 3 -1 roll put} {pop} ifelse
-      grestore } if } def
-/PopTextBox { newpath TBx1 TBxmargin sub TBy1 TBymargin sub M
-               TBx1 TBxmargin sub TBy2 TBymargin add L
-	       TBx2 TBxmargin add TBy2 TBymargin add L
-	       TBx2 TBxmargin add TBy1 TBymargin sub L closepath } def
-/DrawTextBox { PopTextBox stroke /Boxing false def} def
-/FillTextBox { gsave PopTextBox 1 1 1 setrgbcolor fill grestore /Boxing false def} def
-0 0 0 0 InitTextBox
-/TBxmargin 20 def
-/TBymargin 20 def
-/Boxing false def
-/textshow { ExtendTextBox Gshow } def
-%
-% redundant definitions for compatibility with prologue.ps older than 5.0.2
-/LTB {BL [] LCb DL} def
-/LTb {PL [] LCb DL} def
 end
 %%EndProlog
 %%Page: 1 1
@@ -520,26 +483,30 @@ newpath
 BackgroundColor 0 lt 3 1 roll 0 lt exch 0 lt or or not {gsave BackgroundColor C clippath fill grestore} if
 /Helvetica findfont 240 scalefont setfont
 /vshift -80 def
+/Helvetica findfont 240 scalefont setfont
+/Helvetica findfont 240 scalefont setfont
+/Helvetica findfont 240 scalefont setfont
+/Helvetica findfont 240 scalefont setfont
 1.000 UL
 LTb
 LCb setrgbcolor
-936 480 M
+936 501 M
 63 0 V
 5768 0 R
 -63 0 V
 stroke
-792 480 M
+792 501 M
 [ [(Helvetica) 240.0 0.0 true true 0 (-1)]
 ] -80.0 MRshow
 1.000 UL
 LTb
 LCb setrgbcolor
-936 1548 M
+936 1558 M
 63 0 V
 5768 0 R
 -63 0 V
 stroke
-792 1548 M
+792 1558 M
 [ [(Helvetica) 240.0 0.0 true true 0 (-0.5)]
 ] -80.0 MRshow
 1.000 UL
@@ -556,23 +523,23 @@ stroke
 1.000 UL
 LTb
 LCb setrgbcolor
-936 3683 M
+936 3673 M
 63 0 V
 5768 0 R
 -63 0 V
 stroke
-792 3683 M
+792 3673 M
 [ [(Helvetica) 240.0 0.0 true true 0 ( 0.5)]
 ] -80.0 MRshow
 1.000 UL
 LTb
 LCb setrgbcolor
-936 4751 M
+936 4730 M
 63 0 V
 5768 0 R
 -63 0 V
 stroke
-792 4751 M
+792 4730 M
 [ [(Helvetica) 240.0 0.0 true true 0 ( 1)]
 ] -80.0 MRshow
 1.000 UL
@@ -589,85 +556,74 @@ stroke
 1.000 UL
 LTb
 LCb setrgbcolor
-1769 480 M
+1864 480 M
 0 63 V
 0 4208 R
 0 -63 V
 stroke
-1769 240 M
+1864 240 M
+[ [(Helvetica) 240.0 0.0 true true 0 ( 1)]
+] -80.0 MCshow
+1.000 UL
+LTb
+LCb setrgbcolor
+2792 480 M
+0 63 V
+0 4208 R
+0 -63 V
+stroke
+2792 240 M
 [ [(Helvetica) 240.0 0.0 true true 0 ( 2)]
 ] -80.0 MCshow
 1.000 UL
 LTb
 LCb setrgbcolor
-2602 480 M
+3720 480 M
 0 63 V
 0 4208 R
 0 -63 V
 stroke
-2602 240 M
+3720 240 M
+[ [(Helvetica) 240.0 0.0 true true 0 ( 3)]
+] -80.0 MCshow
+1.000 UL
+LTb
+LCb setrgbcolor
+4648 480 M
+0 63 V
+0 4208 R
+0 -63 V
+stroke
+4648 240 M
 [ [(Helvetica) 240.0 0.0 true true 0 ( 4)]
 ] -80.0 MCshow
 1.000 UL
 LTb
 LCb setrgbcolor
-3435 480 M
+5576 480 M
 0 63 V
 0 4208 R
 0 -63 V
 stroke
-3435 240 M
+5576 240 M
+[ [(Helvetica) 240.0 0.0 true true 0 ( 5)]
+] -80.0 MCshow
+1.000 UL
+LTb
+LCb setrgbcolor
+6504 480 M
+0 63 V
+0 4208 R
+0 -63 V
+stroke
+6504 240 M
 [ [(Helvetica) 240.0 0.0 true true 0 ( 6)]
 ] -80.0 MCshow
 1.000 UL
 LTb
 LCb setrgbcolor
-4268 480 M
-0 63 V
-0 4208 R
-0 -63 V
-stroke
-4268 240 M
-[ [(Helvetica) 240.0 0.0 true true 0 ( 8)]
-] -80.0 MCshow
 1.000 UL
 LTb
-LCb setrgbcolor
-5101 480 M
-0 63 V
-0 4208 R
-0 -63 V
-stroke
-5101 240 M
-[ [(Helvetica) 240.0 0.0 true true 0 ( 10)]
-] -80.0 MCshow
-1.000 UL
-LTb
-LCb setrgbcolor
-5934 480 M
-0 63 V
-0 4208 R
-0 -63 V
-stroke
-5934 240 M
-[ [(Helvetica) 240.0 0.0 true true 0 ( 12)]
-] -80.0 MCshow
-1.000 UL
-LTb
-LCb setrgbcolor
-6767 480 M
-0 63 V
-0 4208 R
-0 -63 V
-stroke
-6767 240 M
-[ [(Helvetica) 240.0 0.0 true true 0 ( 14)]
-] -80.0 MCshow
-1.000 UL
-LTb
-LCb setrgbcolor
-1.000 UL
-LTB
 LCb setrgbcolor
 936 4751 N
 936 480 L
@@ -680,426 +636,782 @@ Z stroke
 LTb
 LCb setrgbcolor
 % Begin plot #1
-1.000 UP
 1.000 UL
-LTb
-LCb setrgbcolor
+LT0
+LC0 setrgbcolor
 /Helvetica findfont 240 scalefont setfont
 LCb setrgbcolor
 5696 4568 M
-('sen.dat') Rshow
+('taylor.dat' u 1:2) Rshow
+LT0
+5840 4568 M
+639 0 V
+936 2616 M
+29 66 V
+29 66 V
+29 66 V
+30 66 V
+29 66 V
+29 66 V
+29 65 V
+29 64 V
+29 64 V
+30 64 V
+29 63 V
+29 62 V
+29 61 V
+29 61 V
+29 59 V
+29 59 V
+30 58 V
+29 56 V
+29 56 V
+29 54 V
+29 53 V
+29 52 V
+30 51 V
+29 49 V
+29 48 V
+29 46 V
+29 45 V
+29 43 V
+29 41 V
+30 40 V
+29 38 V
+29 37 V
+29 34 V
+29 33 V
+29 31 V
+30 30 V
+29 27 V
+29 25 V
+29 24 V
+29 21 V
+29 20 V
+30 17 V
+29 16 V
+29 13 V
+29 12 V
+29 9 V
+29 7 V
+29 6 V
+30 3 V
+29 1 V
+29 -1 V
+29 -3 V
+29 -6 V
+29 -7 V
+30 -9 V
+29 -12 V
+29 -13 V
+29 -16 V
+29 -17 V
+29 -20 V
+29 -21 V
+30 -24 V
+29 -25 V
+29 -27 V
+29 -30 V
+29 -31 V
+29 -33 V
+30 -34 V
+29 -37 V
+29 -38 V
+29 -40 V
+29 -41 V
+29 -43 V
+29 -45 V
+30 -46 V
+29 -48 V
+29 -49 V
+29 -51 V
+29 -52 V
+29 -53 V
+30 -54 V
+29 -56 V
+29 -56 V
+29 -58 V
+29 -59 V
+29 -59 V
+29 -61 V
+30 -61 V
+29 -62 V
+29 -63 V
+29 -64 V
+29 -64 V
+29 -64 V
+30 -65 V
+29 -66 V
+29 -66 V
+29 -66 V
+29 -66 V
+29 -66 V
+30 -67 V
+29 -66 V
+29 -66 V
+stroke 3910 2483 M
+29 -66 V
+29 -66 V
+29 -66 V
+29 -66 V
+30 -65 V
+29 -64 V
+29 -64 V
+29 -64 V
+29 -63 V
+29 -62 V
+30 -61 V
+29 -61 V
+29 -59 V
+29 -59 V
+29 -58 V
+29 -56 V
+29 -56 V
+30 -54 V
+29 -53 V
+29 -52 V
+29 -51 V
+29 -49 V
+29 -48 V
+30 -46 V
+29 -45 V
+29 -43 V
+29 -41 V
+29 -40 V
+29 -38 V
+29 -37 V
+30 -34 V
+29 -33 V
+29 -31 V
+29 -30 V
+29 -27 V
+29 -25 V
+30 -24 V
+29 -21 V
+29 -20 V
+29 -17 V
+29 -16 V
+29 -13 V
+29 -12 V
+30 -9 V
+29 -7 V
+29 -6 V
+29 -3 V
+29 -1 V
+29 1 V
+30 3 V
+29 6 V
+29 7 V
+29 9 V
+29 12 V
+29 13 V
+29 16 V
+30 17 V
+29 20 V
+29 21 V
+29 24 V
+29 25 V
+29 27 V
+30 30 V
+29 31 V
+29 33 V
+29 34 V
+29 37 V
+29 38 V
+30 40 V
+29 41 V
+29 43 V
+29 45 V
+29 46 V
+29 48 V
+29 49 V
+30 51 V
+29 52 V
+29 53 V
+29 54 V
+29 56 V
+29 56 V
+30 58 V
+29 59 V
+29 59 V
+29 61 V
+29 61 V
+29 62 V
+29 63 V
+30 64 V
+29 64 V
+29 64 V
+29 65 V
+29 66 V
+29 66 V
+30 66 V
+29 66 V
+29 66 V
+29 67 V
+% End plot #1
+% Begin plot #2
+1.000 UP
+stroke
+LT1
+LC1 setrgbcolor
+/Helvetica findfont 240 scalefont setfont
+LCb setrgbcolor
+5696 4328 M
+('' u 1:3) Rshow
+LT1
+936 1409 Pls
+965 1477 Pls
+994 1548 Pls
+1023 1622 Pls
+1053 1698 Pls
+1082 1778 Pls
+1111 1859 Pls
+1140 1942 Pls
+1169 2028 Pls
+1198 2115 Pls
+1228 2203 Pls
+1257 2292 Pls
+1286 2383 Pls
+1315 2474 Pls
+1344 2566 Pls
+1373 2658 Pls
+1402 2751 Pls
+1432 2843 Pls
+1461 2935 Pls
+1490 3027 Pls
+1519 3118 Pls
+1548 3208 Pls
+1577 3297 Pls
+1607 3385 Pls
+1636 3471 Pls
+1665 3556 Pls
+1694 3639 Pls
+1723 3720 Pls
+1752 3798 Pls
+1781 3875 Pls
+1811 3949 Pls
+1840 4020 Pls
+1869 4089 Pls
+1898 4155 Pls
+1927 4218 Pls
+1956 4278 Pls
+1986 4334 Pls
+2015 4387 Pls
+2044 4436 Pls
+2073 4482 Pls
+2102 4525 Pls
+2131 4563 Pls
+2161 4598 Pls
+2190 4628 Pls
+2219 4655 Pls
+2248 4678 Pls
+2277 4697 Pls
+2306 4711 Pls
+2335 4722 Pls
+2365 4728 Pls
+2394 4730 Pls
+2423 4728 Pls
+2452 4722 Pls
+2481 4711 Pls
+2510 4697 Pls
+2540 4678 Pls
+2569 4655 Pls
+2598 4628 Pls
+2627 4598 Pls
+2656 4563 Pls
+2685 4525 Pls
+2714 4482 Pls
+2744 4436 Pls
+2773 4387 Pls
+2802 4334 Pls
+2831 4278 Pls
+2860 4218 Pls
+2889 4155 Pls
+2919 4089 Pls
+2948 4020 Pls
+2977 3949 Pls
+3006 3875 Pls
+3035 3798 Pls
+3064 3720 Pls
+3093 3639 Pls
+3123 3556 Pls
+3152 3471 Pls
+3181 3385 Pls
+3210 3297 Pls
+3239 3208 Pls
+3268 3118 Pls
+3298 3027 Pls
+3327 2935 Pls
+3356 2843 Pls
+3385 2751 Pls
+3414 2658 Pls
+3443 2566 Pls
+3472 2474 Pls
+3502 2383 Pls
+3531 2292 Pls
+3560 2203 Pls
+3589 2115 Pls
+3618 2028 Pls
+3647 1942 Pls
+3677 1859 Pls
+3706 1778 Pls
+3735 1698 Pls
+3764 1622 Pls
+3793 1548 Pls
+3822 1477 Pls
+3852 1409 Pls
+3881 1344 Pls
+3910 1283 Pls
+3939 1225 Pls
+3968 1171 Pls
+3997 1121 Pls
+4026 1076 Pls
+4056 1035 Pls
+4085 998 Pls
+4114 966 Pls
+4143 939 Pls
+4172 918 Pls
+4201 901 Pls
+4231 889 Pls
+4260 883 Pls
+4289 883 Pls
+4318 888 Pls
+4347 899 Pls
+4376 916 Pls
+4405 939 Pls
+4435 968 Pls
+4464 1003 Pls
+4493 1045 Pls
+4522 1093 Pls
+4551 1147 Pls
+4580 1207 Pls
+4610 1274 Pls
+4639 1347 Pls
+4668 1427 Pls
+4697 1514 Pls
+4726 1606 Pls
+4755 1706 Pls
+4784 1811 Pls
+4814 1923 Pls
+4843 2042 Pls
+4872 2167 Pls
+4901 2298 Pls
+4930 2435 Pls
+4959 2578 Pls
+4989 2727 Pls
+5018 2882 Pls
+5047 3043 Pls
+5076 3210 Pls
+5105 3382 Pls
+5134 3560 Pls
+5163 3743 Pls
+5193 3931 Pls
+5222 4124 Pls
+5251 4321 Pls
+5280 4523 Pls
+5309 4730 Pls
+6159 4328 Pls
+% End plot #2
+% Begin plot #3
 1.000 UP
 1.000 UL
-LTb
+LT2
+LC2 setrgbcolor
+/Helvetica findfont 240 scalefont setfont
 LCb setrgbcolor
-936 2616 Pls
-949 2750 Pls
-962 2883 Pls
-975 3016 Pls
-988 3147 Pls
-1001 3275 Pls
-1015 3402 Pls
-1028 3525 Pls
-1041 3644 Pls
-1054 3760 Pls
-1067 3871 Pls
-1080 3977 Pls
-1093 4077 Pls
-1106 4172 Pls
-1119 4261 Pls
-1132 4343 Pls
-1145 4419 Pls
-1158 4487 Pls
-1172 4548 Pls
-1185 4601 Pls
-1198 4646 Pls
-1211 4684 Pls
-1224 4713 Pls
-1237 4734 Pls
-1250 4747 Pls
-1263 4751 Pls
-1276 4747 Pls
-1289 4734 Pls
-1302 4713 Pls
-1315 4684 Pls
-1329 4646 Pls
-1342 4601 Pls
-1355 4548 Pls
-1368 4487 Pls
-1381 4419 Pls
-1394 4343 Pls
-1407 4261 Pls
-1420 4172 Pls
-1433 4077 Pls
-1446 3977 Pls
-1459 3871 Pls
-1472 3760 Pls
-1486 3644 Pls
-1499 3525 Pls
-1512 3402 Pls
-1525 3275 Pls
-1538 3147 Pls
-1551 3016 Pls
-1564 2883 Pls
-1577 2750 Pls
-1590 2615 Pls
-1603 2481 Pls
-1616 2348 Pls
-1629 2215 Pls
-1643 2084 Pls
-1656 1956 Pls
-1669 1829 Pls
-1682 1706 Pls
-1695 1587 Pls
-1708 1471 Pls
-1721 1360 Pls
-1734 1254 Pls
-1747 1154 Pls
-1760 1059 Pls
-1773 970 Pls
-1787 888 Pls
-1800 812 Pls
-1813 744 Pls
-1826 683 Pls
-1839 630 Pls
-1852 585 Pls
-1865 547 Pls
-1878 518 Pls
-1891 497 Pls
-1904 484 Pls
-1917 480 Pls
-1930 484 Pls
-1944 497 Pls
-1957 518 Pls
-1970 547 Pls
-1983 585 Pls
-1996 630 Pls
-2009 683 Pls
-2022 744 Pls
-2035 812 Pls
-2048 888 Pls
-2061 970 Pls
-2074 1059 Pls
-2087 1154 Pls
-2101 1254 Pls
-2114 1360 Pls
-2127 1471 Pls
-2140 1587 Pls
-2153 1706 Pls
-2166 1829 Pls
-2179 1956 Pls
-2192 2084 Pls
-2205 2215 Pls
-2218 2348 Pls
-2231 2481 Pls
-2244 2616 Pls
-2258 2750 Pls
-2271 2883 Pls
-2284 3016 Pls
-2297 3147 Pls
-2310 3275 Pls
-2323 3402 Pls
-2336 3525 Pls
-2349 3644 Pls
-2362 3760 Pls
-2375 3871 Pls
-2388 3977 Pls
-2401 4077 Pls
-2415 4172 Pls
-2428 4261 Pls
-2441 4343 Pls
-2454 4419 Pls
-2467 4487 Pls
-2480 4548 Pls
-2493 4601 Pls
-2506 4646 Pls
-2519 4684 Pls
-2532 4713 Pls
-2545 4734 Pls
-2559 4747 Pls
-2572 4751 Pls
-2585 4747 Pls
-2598 4734 Pls
-2611 4713 Pls
-2624 4684 Pls
-2637 4646 Pls
-2650 4601 Pls
-2663 4548 Pls
-2676 4487 Pls
-2689 4419 Pls
-2702 4343 Pls
-2716 4261 Pls
-2729 4172 Pls
-2742 4077 Pls
-2755 3977 Pls
-2768 3871 Pls
-2781 3760 Pls
-2794 3644 Pls
-2807 3525 Pls
-2820 3402 Pls
-2833 3275 Pls
-2846 3147 Pls
-2859 3016 Pls
-2873 2883 Pls
-2886 2750 Pls
-2899 2615 Pls
-2912 2481 Pls
-2925 2348 Pls
-2938 2215 Pls
-2951 2084 Pls
-2964 1956 Pls
-2977 1829 Pls
-2990 1706 Pls
-3003 1587 Pls
-3016 1471 Pls
-3030 1360 Pls
-3043 1254 Pls
-3056 1154 Pls
-3069 1059 Pls
-3082 970 Pls
-3095 888 Pls
-3108 812 Pls
-3121 744 Pls
-3134 683 Pls
-3147 630 Pls
-3160 585 Pls
-3173 547 Pls
-3187 518 Pls
-3200 497 Pls
-3213 484 Pls
-3226 480 Pls
-3239 484 Pls
-3252 497 Pls
-3265 518 Pls
-3278 547 Pls
-3291 585 Pls
-3304 630 Pls
-3317 683 Pls
-3331 744 Pls
-3344 812 Pls
-3357 888 Pls
-3370 970 Pls
-3383 1059 Pls
-3396 1154 Pls
-3409 1254 Pls
-3422 1360 Pls
-3435 1471 Pls
-3448 1587 Pls
-3461 1706 Pls
-3474 1829 Pls
-3488 1956 Pls
-3501 2084 Pls
-3514 2215 Pls
-3527 2348 Pls
-3540 2481 Pls
-3553 2616 Pls
-3566 2750 Pls
-3579 2883 Pls
-3592 3016 Pls
-3605 3147 Pls
-3618 3275 Pls
-3631 3402 Pls
-3645 3525 Pls
-3658 3644 Pls
-3671 3760 Pls
-3684 3871 Pls
-3697 3977 Pls
-3710 4077 Pls
-3723 4172 Pls
-3736 4261 Pls
-3749 4343 Pls
-3762 4419 Pls
-3775 4487 Pls
-3788 4548 Pls
-3802 4601 Pls
-3815 4646 Pls
-3828 4684 Pls
-3841 4713 Pls
-3854 4734 Pls
-3867 4747 Pls
-3880 4751 Pls
-3893 4747 Pls
-3906 4734 Pls
-3919 4713 Pls
-3932 4684 Pls
-3945 4646 Pls
-3959 4601 Pls
-3972 4548 Pls
-3985 4487 Pls
-3998 4419 Pls
-4011 4343 Pls
-4024 4261 Pls
-4037 4172 Pls
-4050 4077 Pls
-4063 3977 Pls
-4076 3871 Pls
-4089 3760 Pls
-4103 3644 Pls
-4116 3525 Pls
-4129 3402 Pls
-4142 3275 Pls
-4155 3147 Pls
-4168 3016 Pls
-4181 2883 Pls
-4194 2750 Pls
-4207 2615 Pls
-4220 2481 Pls
-4233 2348 Pls
-4246 2215 Pls
-4260 2084 Pls
-4273 1956 Pls
-4286 1829 Pls
-4299 1706 Pls
-4312 1587 Pls
-4325 1471 Pls
-4338 1360 Pls
-4351 1254 Pls
-4364 1154 Pls
-4377 1059 Pls
-4390 970 Pls
-4403 888 Pls
-4417 812 Pls
-4430 744 Pls
-4443 683 Pls
-4456 630 Pls
-4469 585 Pls
-4482 547 Pls
-4495 518 Pls
-4508 497 Pls
-4521 484 Pls
-4534 480 Pls
-4547 484 Pls
-4560 497 Pls
-4574 518 Pls
-4587 547 Pls
-4600 585 Pls
-4613 630 Pls
-4626 683 Pls
-4639 744 Pls
-4652 812 Pls
-4665 888 Pls
-4678 970 Pls
-4691 1059 Pls
-4704 1154 Pls
-4717 1254 Pls
-4731 1360 Pls
-4744 1471 Pls
-4757 1587 Pls
-4770 1706 Pls
-4783 1829 Pls
-4796 1956 Pls
-4809 2084 Pls
-4822 2215 Pls
-4835 2348 Pls
-4848 2481 Pls
-4861 2616 Pls
-4875 2750 Pls
-4888 2883 Pls
-4901 3016 Pls
-4914 3147 Pls
-4927 3275 Pls
-4940 3402 Pls
-4953 3525 Pls
-4966 3644 Pls
-4979 3760 Pls
-4992 3871 Pls
-5005 3977 Pls
-5018 4077 Pls
-5032 4172 Pls
-5045 4261 Pls
-5058 4343 Pls
-5071 4419 Pls
-5084 4487 Pls
-5097 4548 Pls
-5110 4601 Pls
-5123 4646 Pls
-5136 4684 Pls
-5149 4713 Pls
-5162 4734 Pls
-5175 4747 Pls
-5189 4751 Pls
-5202 4747 Pls
-5215 4734 Pls
-5228 4713 Pls
-5241 4684 Pls
-5254 4646 Pls
-5267 4601 Pls
-5280 4548 Pls
-5293 4487 Pls
-5306 4419 Pls
-5319 4343 Pls
-5332 4261 Pls
-5346 4172 Pls
-5359 4077 Pls
-5372 3977 Pls
-5385 3871 Pls
-5398 3760 Pls
-5411 3644 Pls
-5424 3525 Pls
-5437 3402 Pls
-5450 3275 Pls
-5463 3147 Pls
-5476 3016 Pls
-5489 2883 Pls
-5503 2750 Pls
-5516 2615 Pls
-5529 2481 Pls
-5542 2348 Pls
-5555 2215 Pls
-5568 2084 Pls
-5581 1956 Pls
-5594 1829 Pls
-5607 1706 Pls
-5620 1587 Pls
-5633 1471 Pls
-5647 1360 Pls
-5660 1254 Pls
-5673 1154 Pls
-5686 1059 Pls
-5699 970 Pls
-5712 888 Pls
-5725 812 Pls
-5738 744 Pls
-5751 683 Pls
-5764 630 Pls
-5777 585 Pls
-5790 547 Pls
-5804 518 Pls
-5817 497 Pls
-5830 484 Pls
-5843 480 Pls
-5856 484 Pls
-5869 497 Pls
-5882 518 Pls
-5895 547 Pls
-5908 585 Pls
-5921 630 Pls
-5934 683 Pls
-5947 744 Pls
-5961 812 Pls
-5974 888 Pls
-5987 970 Pls
-6000 1059 Pls
-6013 1154 Pls
-6026 1254 Pls
-6039 1360 Pls
-6052 1471 Pls
-6065 1587 Pls
-6078 1706 Pls
-6091 1829 Pls
-6104 1956 Pls
-6118 2084 Pls
-6131 2215 Pls
-6144 2348 Pls
-6157 2481 Pls
-6170 2616 Pls
-6159 4568 Pls
-% End plot #1
-2.000 UL
-LTb
-LCb setrgbcolor
+5696 4088 M
+('' u 1:4) Rshow
+LT2
+936 1396 Pls
+965 1385 Pls
+994 1385 Pls
+1023 1393 Pls
+1053 1411 Pls
+1082 1437 Pls
+1111 1471 Pls
+1140 1512 Pls
+1169 1561 Pls
+1198 1617 Pls
+1228 1679 Pls
+1257 1747 Pls
+1286 1821 Pls
+1315 1900 Pls
+1344 1984 Pls
+1373 2072 Pls
+1402 2164 Pls
+1432 2260 Pls
+1461 2358 Pls
+1490 2459 Pls
+1519 2562 Pls
+1548 2666 Pls
+1577 2772 Pls
+1607 2879 Pls
+1636 2986 Pls
+1665 3092 Pls
+1694 3198 Pls
+1723 3304 Pls
+1752 3408 Pls
+1781 3510 Pls
+1811 3610 Pls
+1840 3708 Pls
+1869 3803 Pls
+1898 3895 Pls
+1927 3983 Pls
+1956 4068 Pls
+1986 4148 Pls
+2015 4225 Pls
+2044 4296 Pls
+2073 4363 Pls
+2102 4425 Pls
+2131 4482 Pls
+2161 4533 Pls
+2190 4578 Pls
+2219 4618 Pls
+2248 4652 Pls
+2277 4680 Pls
+2306 4702 Pls
+2335 4717 Pls
+2365 4727 Pls
+2394 4730 Pls
+2423 4727 Pls
+2452 4717 Pls
+2481 4702 Pls
+2510 4680 Pls
+2540 4652 Pls
+2569 4618 Pls
+2598 4579 Pls
+2627 4533 Pls
+2656 4482 Pls
+2685 4426 Pls
+2714 4364 Pls
+2744 4297 Pls
+2773 4225 Pls
+2802 4149 Pls
+2831 4069 Pls
+2860 3984 Pls
+2889 3896 Pls
+2919 3805 Pls
+2948 3710 Pls
+2977 3613 Pls
+3006 3513 Pls
+3035 3411 Pls
+3064 3307 Pls
+3093 3203 Pls
+3123 3097 Pls
+3152 2991 Pls
+3181 2884 Pls
+3210 2779 Pls
+3239 2673 Pls
+3268 2570 Pls
+3298 2467 Pls
+3327 2367 Pls
+3356 2270 Pls
+3385 2175 Pls
+3414 2084 Pls
+3443 1997 Pls
+3472 1914 Pls
+3502 1835 Pls
+3531 1762 Pls
+3560 1695 Pls
+3589 1634 Pls
+3618 1579 Pls
+3647 1531 Pls
+3677 1490 Pls
+3706 1457 Pls
+3735 1433 Pls
+3764 1416 Pls
+3793 1409 Pls
+3822 1410 Pls
+3852 1422 Pls
+3881 1443 Pls
+3910 1474 Pls
+3939 1515 Pls
+3968 1568 Pls
+3997 1631 Pls
+4026 1705 Pls
+4056 1791 Pls
+4085 1888 Pls
+4114 1997 Pls
+4143 2118 Pls
+4172 2251 Pls
+4201 2396 Pls
+4231 2553 Pls
+4260 2722 Pls
+4289 2904 Pls
+4318 3098 Pls
+4347 3304 Pls
+4376 3522 Pls
+4405 3752 Pls
+4435 3994 Pls
+4464 4248 Pls
+4493 4513 Pls
+6159 4088 Pls
+% End plot #3
+% Begin plot #4
+1.000 UP
 1.000 UL
-LTB
+LT3
+LC3 setrgbcolor
+/Helvetica findfont 240 scalefont setfont
+LCb setrgbcolor
+5696 3848 M
+('' u 1:5) Rshow
+LT3
+936 2761 Pls
+965 2670 Pls
+994 2590 Pls
+1023 2522 Pls
+1053 2465 Pls
+1082 2418 Pls
+1111 2383 Pls
+1140 2358 Pls
+1169 2343 Pls
+1198 2338 Pls
+1228 2342 Pls
+1257 2355 Pls
+1286 2377 Pls
+1315 2406 Pls
+1344 2443 Pls
+1373 2488 Pls
+1402 2539 Pls
+1432 2596 Pls
+1461 2659 Pls
+1490 2726 Pls
+1519 2799 Pls
+1548 2875 Pls
+1577 2955 Pls
+1607 3039 Pls
+1636 3124 Pls
+1665 3212 Pls
+1694 3301 Pls
+1723 3391 Pls
+1752 3481 Pls
+1781 3571 Pls
+1811 3661 Pls
+1840 3749 Pls
+1869 3836 Pls
+1898 3922 Pls
+1927 4004 Pls
+1956 4084 Pls
+1986 4161 Pls
+2015 4234 Pls
+2044 4303 Pls
+2073 4368 Pls
+2102 4428 Pls
+2131 4484 Pls
+2161 4534 Pls
+2190 4579 Pls
+2219 4619 Pls
+2248 4652 Pls
+2277 4680 Pls
+2306 4702 Pls
+2335 4717 Pls
+2365 4727 Pls
+2394 4730 Pls
+2423 4727 Pls
+2452 4717 Pls
+2481 4702 Pls
+2510 4680 Pls
+2540 4652 Pls
+2569 4619 Pls
+2598 4579 Pls
+2627 4535 Pls
+2656 4484 Pls
+2685 4429 Pls
+2714 4369 Pls
+2744 4304 Pls
+2773 4235 Pls
+2802 4162 Pls
+2831 4086 Pls
+2860 4006 Pls
+2889 3924 Pls
+2919 3839 Pls
+2948 3753 Pls
+2977 3665 Pls
+3006 3576 Pls
+3035 3486 Pls
+3064 3396 Pls
+3093 3307 Pls
+3123 3219 Pls
+3152 3132 Pls
+3181 3047 Pls
+3210 2965 Pls
+3239 2886 Pls
+3268 2810 Pls
+3298 2738 Pls
+3327 2671 Pls
+3356 2610 Pls
+3385 2553 Pls
+3414 2503 Pls
+3443 2460 Pls
+3472 2424 Pls
+3502 2395 Pls
+3531 2374 Pls
+3560 2362 Pls
+3589 2359 Pls
+3618 2365 Pls
+3647 2381 Pls
+3677 2406 Pls
+3706 2442 Pls
+3735 2489 Pls
+3764 2547 Pls
+3793 2616 Pls
+3822 2696 Pls
+3852 2787 Pls
+3881 2891 Pls
+3910 3006 Pls
+3939 3133 Pls
+3968 3272 Pls
+3997 3423 Pls
+4026 3586 Pls
+4056 3761 Pls
+4085 3948 Pls
+4114 4146 Pls
+4143 4355 Pls
+4172 4576 Pls
+6126 4311 Pls
+6155 3397 Pls
+6184 2448 Pls
+6213 1464 Pls
+6159 3848 Pls
+% End plot #4
+% Begin plot #5
+1.000 UP
+1.000 UL
+LT4
+LC4 setrgbcolor
+/Helvetica findfont 240 scalefont setfont
+LCb setrgbcolor
+5696 3608 M
+('' u 1:6) Rshow
+LT4
+936 2769 Pls
+965 2693 Pls
+994 2625 Pls
+1023 2567 Pls
+1053 2518 Pls
+1082 2479 Pls
+1111 2448 Pls
+1140 2426 Pls
+1169 2413 Pls
+1198 2409 Pls
+1228 2413 Pls
+1257 2425 Pls
+1286 2445 Pls
+1315 2472 Pls
+1344 2507 Pls
+1373 2548 Pls
+1402 2595 Pls
+1432 2649 Pls
+1461 2708 Pls
+1490 2772 Pls
+1519 2841 Pls
+1548 2913 Pls
+1577 2990 Pls
+1607 3069 Pls
+1636 3151 Pls
+1665 3236 Pls
+1694 3322 Pls
+1723 3409 Pls
+1752 3497 Pls
+1781 3584 Pls
+1811 3672 Pls
+1840 3759 Pls
+1869 3844 Pls
+1898 3928 Pls
+1927 4009 Pls
+1956 4088 Pls
+1986 4164 Pls
+2015 4236 Pls
+2044 4305 Pls
+2073 4369 Pls
+2102 4429 Pls
+2131 4484 Pls
+2161 4535 Pls
+2190 4579 Pls
+2219 4619 Pls
+2248 4652 Pls
+2277 4680 Pls
+2306 4702 Pls
+2335 4717 Pls
+2365 4727 Pls
+2394 4730 Pls
+2423 4727 Pls
+2452 4717 Pls
+2481 4702 Pls
+2510 4680 Pls
+2540 4652 Pls
+2569 4619 Pls
+2598 4580 Pls
+2627 4535 Pls
+2656 4485 Pls
+2685 4430 Pls
+2714 4370 Pls
+2744 4306 Pls
+2773 4237 Pls
+2802 4165 Pls
+2831 4090 Pls
+2860 4011 Pls
+2889 3930 Pls
+2919 3847 Pls
+2948 3762 Pls
+2977 3676 Pls
+3006 3589 Pls
+3035 3501 Pls
+3064 3414 Pls
+3093 3327 Pls
+3123 3242 Pls
+3152 3158 Pls
+3181 3077 Pls
+3210 2998 Pls
+3239 2922 Pls
+3268 2850 Pls
+3298 2782 Pls
+3327 2718 Pls
+3356 2660 Pls
+3385 2607 Pls
+3414 2560 Pls
+3443 2519 Pls
+3472 2485 Pls
+3502 2458 Pls
+3531 2439 Pls
+3560 2427 Pls
+3589 2423 Pls
+3618 2427 Pls
+3647 2440 Pls
+3677 2462 Pls
+3706 2492 Pls
+3735 2532 Pls
+3764 2580 Pls
+3793 2637 Pls
+3822 2704 Pls
+3852 2779 Pls
+3881 2864 Pls
+3910 2957 Pls
+3939 3059 Pls
+3968 3170 Pls
+3997 3289 Pls
+4026 3416 Pls
+4056 3550 Pls
+4085 3692 Pls
+4114 3841 Pls
+4143 3996 Pls
+4172 4157 Pls
+4201 4323 Pls
+4231 4494 Pls
+4260 4669 Pls
+5484 4377 Pls
+5513 3935 Pls
+5542 3467 Pls
+5572 2973 Pls
+5601 2453 Pls
+5630 1909 Pls
+5659 1341 Pls
+5688 750 Pls
+6159 3608 Pls
+% End plot #5
+1.000 UL
+LTb
 LCb setrgbcolor
 936 4751 N
 936 480 L

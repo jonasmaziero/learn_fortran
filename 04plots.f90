@@ -57,6 +57,7 @@ subroutine plot2d(arq)
   write(13,*) "plot "//arq
   close(13)
   call system("gnuplot plot2d.gnu")
-  call system("evince plot2d.eps &")
+  !call system("evince plot2d.eps &")
+  call system("open -a skim plot2d.eps &")
 end subroutine
 !------------------------------------------------------------------------------------------------------------------------------------
