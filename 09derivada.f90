@@ -19,7 +19,6 @@ subroutine derivadas()
     x = x + dx
     !write(13,*) x, sen(x),der(sen,x,del),dcos(x),der2(sen,x,del),-dsin(x),der3(sen,x,del),-dcos(x),der4(sen,x,del)
     write(13,*) x, sen(x),dern(sen,x,del,1),dcos(x),dern(sen,x,del,2),-dsin(x),dern(sen,x,del,3),-dcos(x),dern(sen,x,del,4)
-    !write(*,*) x, sen(x),dern(sen,x,del,1),dcos(x),dern(sen,x,del,2),-dsin(x),dern(sen,x,del,3),-dcos(x),dern(sen,x,del,4)
     !write(13,*) x,sen(x),derr(sen,x,del,1),dcos(x),derr(sen,x,del,2),-dsin(x),derr(sen,x,del,3),-dcos(x),derr(sen,x,del,4)
     if (x > xmax) exit
   enddo
@@ -102,16 +101,14 @@ function dern(f,x,h,n)
   integer :: n, j
   integer(8) :: newtonb
 
-  dern = f(x+n*h) - n*f(x+(n-1)*h)
-  if1: if (n > 1) then
-    do j = 2, n
+  dern = 0.d0
+    do j = 0, n
       if2: if (mod(n-j,2) == 0) then
         dern = dern + newtonb(n,j)*f(x+(n-j)*h)
       else
         dern = dern - newtonb(n,j)*f(x+(n-j)*h)
       endif if2
     enddo
-  endif if1
   dern = dern/h**n
 
 end function dern
