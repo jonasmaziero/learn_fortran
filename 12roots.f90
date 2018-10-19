@@ -1,15 +1,14 @@
 !-----------------------------------------------------------------------------------------------------------------------------------
-program roots
-  !use cte
-  !write(*,*) pi, c, e, eps0, mu0, G, h, hb, kB, alpha; stop
+program roots !gfortran 12modfunc.f90 12roots.f90
   call roots_test()
 end program
 !-----------------------------------------------------------------------------------------------------------------------------------
 subroutine roots_test()
+  use modfunc
   implicit none
   real(8) :: err, xi, xf, xr, dx, x
   integer :: Nm
-  real(8), external :: func
+  !real(8), external :: func
   real(8) :: xe, xd
   integer :: Er
   open(unit=13,file="roots.dat",status="unknown")
@@ -75,12 +74,4 @@ subroutine bissection(f,xe,xd,err,Nm,xr,Er)
   end if if1
 
 end subroutine
-!-----------------------------------------------------------------------------------------------------------------------------------
-function func(x)
-  implicit none
-  real(8) :: x, func
-
-  func = x**3.d0 + 3.d0*x**2.d0 - x - 4.d0
-
-end function
 !-----------------------------------------------------------------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 %!PS-Adobe-2.0
 %%Title: derivada.eps
-%%Creator: gnuplot 4.6 patchlevel 4
-%%CreationDate: Mon Oct  8 11:43:20 2018
+%%Creator: gnuplot 5.0 patchlevel 6
+%%CreationDate: Fri Oct 19 19:26:18 2018
 %%DocumentFonts: (atend)
 %%BoundingBox: 50 50 554 770
 %%Orientation: Landscape
@@ -20,6 +20,7 @@ gnudict begin
 /Dashlength 1 def
 /Landscape true def
 /Level1 false def
+/Level3 false def
 /Rounded false def
 /ClipToBoundingBox false def
 /SuppressPDFMark false def
@@ -31,11 +32,11 @@ gnudict begin
 %
 /vshift -80 def
 /dl1 {
-  10.0 Dashlength mul mul
+  10.0 Dashlength userlinewidth gnulinewidth div mul mul mul
   Rounded { currentlinewidth 0.75 mul sub dup 0 le { pop 0.01 } if } if
 } def
 /dl2 {
-  10.0 Dashlength mul mul
+  10.0 Dashlength userlinewidth gnulinewidth div mul mul mul
   Rounded { currentlinewidth 0.75 mul add } if
 } def
 /hpt_ 31.5 def
@@ -49,7 +50,7 @@ gnudict begin
   } if
 } def
 %
-% Gnuplot Prolog Version 4.6 (September 2012)
+% Gnuplot Prolog Version 5.1 (Oct 2015)
 %
 %/SuppressPDFMark true def
 %
@@ -66,11 +67,11 @@ gnudict begin
 /vpt2 vpt 2 mul def
 /hpt2 hpt 2 mul def
 /Lshow {currentpoint stroke M 0 vshift R 
-	Blacktext {gsave 0 setgray show grestore} {show} ifelse} def
+	Blacktext {gsave 0 setgray textshow grestore} {textshow} ifelse} def
 /Rshow {currentpoint stroke M dup stringwidth pop neg vshift R
-	Blacktext {gsave 0 setgray show grestore} {show} ifelse} def
+	Blacktext {gsave 0 setgray textshow grestore} {textshow} ifelse} def
 /Cshow {currentpoint stroke M dup stringwidth pop -2 div vshift R 
-	Blacktext {gsave 0 setgray show grestore} {show} ifelse} def
+	Blacktext {gsave 0 setgray textshow grestore} {textshow} ifelse} def
 /UP {dup vpt_ mul /vpt exch def hpt_ mul /hpt exch def
   /hpt2 hpt 2 mul def /vpt2 vpt 2 mul def} def
 /DL {Color {setrgbcolor Solid {pop []} if 0 setdash}
@@ -84,7 +85,7 @@ gnudict begin
 /PL {stroke userlinewidth setlinewidth
 	Rounded {1 setlinejoin 1 setlinecap} if} def
 3.8 setmiterlimit
-% Default Line colors
+% Classic Line colors (version 5.0)
 /LCw {1 1 1} def
 /LCb {0 0 0} def
 /LCa {0 0 0} def
@@ -97,19 +98,21 @@ gnudict begin
 /LC6 {0 0 0} def
 /LC7 {1 0.3 0} def
 /LC8 {0.5 0.5 0.5} def
-% Default Line Types
+% Default dash patterns (version 5.0)
+/LTB {BL [] LCb DL} def
 /LTw {PL [] 1 setgray} def
-/LTb {BL [] LCb DL} def
+/LTb {PL [] LCb DL} def
 /LTa {AL [1 udl mul 2 udl mul] 0 setdash LCa setrgbcolor} def
 /LT0 {PL [] LC0 DL} def
-/LT1 {PL [4 dl1 2 dl2] LC1 DL} def
-/LT2 {PL [2 dl1 3 dl2] LC2 DL} def
-/LT3 {PL [1 dl1 1.5 dl2] LC3 DL} def
-/LT4 {PL [6 dl1 2 dl2 1 dl1 2 dl2] LC4 DL} def
-/LT5 {PL [3 dl1 3 dl2 1 dl1 3 dl2] LC5 DL} def
-/LT6 {PL [2 dl1 2 dl2 2 dl1 6 dl2] LC6 DL} def
-/LT7 {PL [1 dl1 2 dl2 6 dl1 2 dl2 1 dl1 2 dl2] LC7 DL} def
-/LT8 {PL [2 dl1 2 dl2 2 dl1 2 dl2 2 dl1 2 dl2 2 dl1 4 dl2] LC8 DL} def
+/LT1 {PL [2 dl1 3 dl2] LC1 DL} def
+/LT2 {PL [1 dl1 1.5 dl2] LC2 DL} def
+/LT3 {PL [6 dl1 2 dl2 1 dl1 2 dl2] LC3 DL} def
+/LT4 {PL [1 dl1 2 dl2 6 dl1 2 dl2 1 dl1 2 dl2] LC4 DL} def
+/LT5 {PL [4 dl1 2 dl2] LC5 DL} def
+/LT6 {PL [1.5 dl1 1.5 dl2 1.5 dl1 1.5 dl2 1.5 dl1 6 dl2] LC6 DL} def
+/LT7 {PL [3 dl1 3 dl2 1 dl1 3 dl2] LC7 DL} def
+/LT8 {PL [2 dl1 2 dl2 2 dl1 6 dl2] LC8 DL} def
+/SL {[] 0 setdash} def
 /Pnt {stroke [] 0 setdash gsave 1 setlinecap M 0 0 V stroke grestore} def
 /Dia {stroke [] 0 setdash 2 copy vpt add M
   hpt neg vpt neg V hpt vpt neg V
@@ -331,9 +334,14 @@ gnudict begin
 %
 /languagelevel where
  {pop languagelevel} {1} ifelse
- 2 lt
-	{/InterpretLevel1 true def}
-	{/InterpretLevel1 Level1 def}
+dup 2 lt
+	{/InterpretLevel1 true def
+	 /InterpretLevel3 false def}
+	{/InterpretLevel1 Level1 def
+	 2 gt
+	    {/InterpretLevel3 Level3 def}
+	    {/InterpretLevel3 false def}
+	 ifelse }
  ifelse
 %
 % PostScript level 2 pattern fill definitions
@@ -422,16 +430,17 @@ Level1 {Level1PatternFill} {Level2PatternFill} ifelse
 /Symbol-Oblique /Symbol findfont [1 0 .167 1 0 0] makefont
 dup length dict begin {1 index /FID eq {pop pop} {def} ifelse} forall
 currentdict end definefont pop
+%
 /MFshow {
    { dup 5 get 3 ge
      { 5 get 3 eq {gsave} {grestore} ifelse }
      {dup dup 0 get findfont exch 1 get scalefont setfont
      [ currentpoint ] exch dup 2 get 0 exch R dup 5 get 2 ne {dup dup 6
-     get exch 4 get {Gshow} {stringwidth pop 0 R} ifelse }if dup 5 get 0 eq
+     get exch 4 get {textshow} {stringwidth pop 0 R} ifelse }if dup 5 get 0 eq
      {dup 3 get {2 get neg 0 exch R pop} {pop aload pop M} ifelse} {dup 5
      get 1 eq {dup 2 get exch dup 3 get exch 6 get stringwidth pop -2 div
      dup 0 R} {dup 6 get stringwidth pop -2 div 0 R 6 get
-     show 2 index {aload pop M neg 3 -1 roll neg R pop pop} {pop pop pop
+     textshow 2 index {aload pop M neg 3 -1 roll neg R pop pop} {pop pop pop
      pop aload pop M} ifelse }ifelse }ifelse }
      ifelse }
    forall} def
@@ -459,14 +468,42 @@ systemdict /pdfmark known not {
 SDict begin [
   /Title (derivada.eps)
   /Subject (gnuplot plot)
-  /Creator (gnuplot 4.6 patchlevel 4)
+  /Creator (gnuplot 5.0 patchlevel 6)
   /Author (jonasmaziero)
 %  /Producer (gnuplot)
 %  /Keywords ()
-  /CreationDate (Mon Oct  8 11:43:20 2018)
+  /CreationDate (Fri Oct 19 19:26:18 2018)
   /DOCINFO pdfmark
 end
 } ifelse
+%
+% Support for boxed text - Ethan A Merritt May 2005
+%
+/InitTextBox { userdict /TBy2 3 -1 roll put userdict /TBx2 3 -1 roll put
+           userdict /TBy1 3 -1 roll put userdict /TBx1 3 -1 roll put
+	   /Boxing true def } def
+/ExtendTextBox { Boxing
+    { gsave dup false charpath pathbbox
+      dup TBy2 gt {userdict /TBy2 3 -1 roll put} {pop} ifelse
+      dup TBx2 gt {userdict /TBx2 3 -1 roll put} {pop} ifelse
+      dup TBy1 lt {userdict /TBy1 3 -1 roll put} {pop} ifelse
+      dup TBx1 lt {userdict /TBx1 3 -1 roll put} {pop} ifelse
+      grestore } if } def
+/PopTextBox { newpath TBx1 TBxmargin sub TBy1 TBymargin sub M
+               TBx1 TBxmargin sub TBy2 TBymargin add L
+	       TBx2 TBxmargin add TBy2 TBymargin add L
+	       TBx2 TBxmargin add TBy1 TBymargin sub L closepath } def
+/DrawTextBox { PopTextBox stroke /Boxing false def} def
+/FillTextBox { gsave PopTextBox 1 1 1 setrgbcolor fill grestore /Boxing false def} def
+0 0 0 0 InitTextBox
+/TBxmargin 20 def
+/TBymargin 20 def
+/Boxing false def
+/textshow { ExtendTextBox Gshow } def
+%
+% redundant definitions for compatibility with prologue.ps older than 5.0.2
+/LTB {BL [] LCb DL} def
+/LTb {PL [] LCb DL} def
 end
 %%EndProlog
 %%Page: 1 1
@@ -626,7 +663,7 @@ stroke
 LTb
 LCb setrgbcolor
 1.000 UL
-LTb
+LTB
 LCb setrgbcolor
 936 4751 N
 936 480 L
@@ -640,14 +677,14 @@ LTb
 LCb setrgbcolor
 % Begin plot #1
 1.000 UL
-LT0
-LC0 setrgbcolor
-/Helvetica findfont 240 scalefont setfont
+LTb
+0.58 0.00 0.83 C /Helvetica findfont 240 scalefont setfont
 LCb setrgbcolor
 5696 4568 M
 ('derivada.dat' u 1:2) Rshow
-LT0
-5840 4568 M
+1.000 UL
+LTb
+0.58 0.00 0.83 C 5840 4568 M
 639 0 V
 936 2616 M
 73 165 V
@@ -734,14 +771,15 @@ LT0
 % Begin plot #2
 1.000 UP
 stroke
-LT1
-LC1 setrgbcolor
-/Helvetica findfont 240 scalefont setfont
+LTb
+0.00 0.62 0.45 C /Helvetica findfont 240 scalefont setfont
 LCb setrgbcolor
 5696 4328 M
 ('' u 1:3) Rshow
-LT1
-936 4730 Pls
+1.000 UP
+1.000 UL
+LTb
+0.00 0.62 0.45 C 936 4730 Pls
 1009 4723 Pls
 1082 4704 Pls
 1155 4671 Pls
@@ -749,36 +787,36 @@ LT1
 1300 4569 Pls
 1373 4499 Pls
 1446 4418 Pls
-1519 4326 Pls
+1519 4325 Pls
 1592 4223 Pls
-1665 4111 Pls
-1738 3989 Pls
-1811 3858 Pls
-1884 3720 Pls
-1956 3575 Pls
-2029 3425 Pls
-2102 3269 Pls
-2175 3109 Pls
-2248 2946 Pls
-2321 2781 Pls
-2394 2615 Pls
-2467 2450 Pls
-2540 2285 Pls
-2612 2122 Pls
-2685 1962 Pls
-2758 1806 Pls
-2831 1656 Pls
-2904 1511 Pls
-2977 1373 Pls
+1665 4110 Pls
+1738 3988 Pls
+1811 3857 Pls
+1884 3719 Pls
+1956 3574 Pls
+2029 3424 Pls
+2102 3268 Pls
+2175 3108 Pls
+2248 2945 Pls
+2321 2780 Pls
+2394 2614 Pls
+2467 2449 Pls
+2540 2284 Pls
+2612 2121 Pls
+2685 1961 Pls
+2758 1805 Pls
+2831 1655 Pls
+2904 1510 Pls
+2977 1372 Pls
 3050 1242 Pls
 3123 1120 Pls
-3196 1008 Pls
-3268 905 Pls
-3341 813 Pls
-3414 732 Pls
+3196 1007 Pls
+3268 904 Pls
+3341 812 Pls
+3414 731 Pls
 3487 662 Pls
-3560 605 Pls
-3633 560 Pls
+3560 604 Pls
+3633 559 Pls
 3706 527 Pls
 3779 508 Pls
 3852 501 Pls
@@ -789,50 +827,50 @@ LT1
 4216 662 Pls
 4289 732 Pls
 4362 813 Pls
-4435 905 Pls
+4435 906 Pls
 4507 1008 Pls
-4580 1120 Pls
-4653 1242 Pls
-4726 1373 Pls
-4799 1511 Pls
-4872 1656 Pls
-4945 1806 Pls
-5018 1962 Pls
-5091 2122 Pls
-5163 2285 Pls
-5236 2450 Pls
-5309 2616 Pls
-5382 2781 Pls
-5455 2946 Pls
-5528 3109 Pls
-5601 3269 Pls
-5674 3425 Pls
-5747 3575 Pls
-5819 3720 Pls
-5892 3858 Pls
+4580 1121 Pls
+4653 1243 Pls
+4726 1374 Pls
+4799 1512 Pls
+4872 1657 Pls
+4945 1807 Pls
+5018 1963 Pls
+5091 2123 Pls
+5163 2286 Pls
+5236 2451 Pls
+5309 2617 Pls
+5382 2782 Pls
+5455 2947 Pls
+5528 3110 Pls
+5601 3270 Pls
+5674 3426 Pls
+5747 3576 Pls
+5819 3721 Pls
+5892 3859 Pls
 5965 3989 Pls
 6038 4111 Pls
-6111 4223 Pls
-6184 4326 Pls
-6257 4418 Pls
-6330 4499 Pls
+6111 4224 Pls
+6184 4327 Pls
+6257 4419 Pls
+6330 4500 Pls
 6403 4569 Pls
-6475 4626 Pls
-6548 4671 Pls
+6475 4627 Pls
+6548 4672 Pls
 6621 4704 Pls
 6694 4723 Pls
 6159 4328 Pls
 % End plot #2
 % Begin plot #3
 1.000 UL
-LT2
-LC2 setrgbcolor
-/Helvetica findfont 240 scalefont setfont
+LTb
+0.34 0.71 0.91 C /Helvetica findfont 240 scalefont setfont
 LCb setrgbcolor
 5696 4088 M
 ('' u 1:4) Rshow
-LT2
-5840 4088 M
+1.000 UL
+LTb
+0.34 0.71 0.91 C 5840 4088 M
 639 0 V
 936 4730 M
 73 -7 V
@@ -919,105 +957,106 @@ LT2
 % Begin plot #4
 1.000 UP
 stroke
-LT3
-LC3 setrgbcolor
-/Helvetica findfont 240 scalefont setfont
+LTb
+0.90 0.62 0.00 C /Helvetica findfont 240 scalefont setfont
 LCb setrgbcolor
 5696 3848 M
 ('' u 1:5) Rshow
-LT3
-936 2614 Crs
-1009 2449 Crs
-1082 2284 Crs
-1155 2121 Crs
-1228 1961 Crs
-1300 1805 Crs
-1373 1655 Crs
-1446 1510 Crs
-1519 1372 Crs
-1592 1242 Crs
-1665 1120 Crs
-1738 1007 Crs
+1.000 UP
+1.000 UL
+LTb
+0.90 0.62 0.00 C 936 2613 Crs
+1009 2448 Crs
+1082 2283 Crs
+1155 2120 Crs
+1228 1960 Crs
+1300 1804 Crs
+1373 1654 Crs
+1446 1509 Crs
+1519 1371 Crs
+1592 1241 Crs
+1665 1119 Crs
+1738 1006 Crs
 1811 904 Crs
 1884 812 Crs
 1956 731 Crs
-2029 662 Crs
+2029 661 Crs
 2102 604 Crs
 2175 559 Crs
 2248 527 Crs
-2321 508 Crs
+2321 507 Crs
 2394 501 Crs
 2467 508 Crs
-2540 527 Crs
+2540 528 Crs
 2612 560 Crs
 2685 605 Crs
-2758 662 Crs
-2831 732 Crs
-2904 813 Crs
+2758 663 Crs
+2831 733 Crs
+2904 814 Crs
 2977 906 Crs
-3050 1008 Crs
-3123 1121 Crs
-3196 1243 Crs
+3050 1009 Crs
+3123 1122 Crs
+3196 1244 Crs
 3268 1374 Crs
-3341 1512 Crs
+3341 1513 Crs
 3414 1657 Crs
-3487 1807 Crs
-3560 1963 Crs
-3633 2123 Crs
-3706 2286 Crs
-3779 2451 Crs
-3852 2617 Crs
-3924 2782 Crs
-3997 2947 Crs
-4070 3110 Crs
-4143 3270 Crs
-4216 3426 Crs
-4289 3576 Crs
-4362 3721 Crs
-4435 3859 Crs
-4507 3989 Crs
-4580 4111 Crs
-4653 4224 Crs
+3487 1808 Crs
+3560 1964 Crs
+3633 2124 Crs
+3706 2287 Crs
+3779 2452 Crs
+3852 2618 Crs
+3924 2783 Crs
+3997 2948 Crs
+4070 3111 Crs
+4143 3271 Crs
+4216 3427 Crs
+4289 3577 Crs
+4362 3722 Crs
+4435 3860 Crs
+4507 3990 Crs
+4580 4112 Crs
+4653 4225 Crs
 4726 4327 Crs
 4799 4419 Crs
 4872 4500 Crs
-4945 4569 Crs
+4945 4570 Crs
 5018 4627 Crs
 5091 4672 Crs
 5163 4704 Crs
-5236 4723 Crs
+5236 4724 Crs
 5309 4730 Crs
 5382 4723 Crs
-5455 4704 Crs
+5455 4703 Crs
 5528 4671 Crs
 5601 4626 Crs
-5674 4569 Crs
-5747 4499 Crs
-5819 4418 Crs
+5674 4568 Crs
+5747 4498 Crs
+5819 4417 Crs
 5892 4325 Crs
-5965 4223 Crs
-6038 4110 Crs
-6111 3988 Crs
+5965 4222 Crs
+6038 4109 Crs
+6111 3987 Crs
 6184 3857 Crs
-6257 3719 Crs
+6257 3718 Crs
 6330 3574 Crs
-6403 3424 Crs
-6475 3268 Crs
-6548 3108 Crs
-6621 2945 Crs
-6694 2780 Crs
+6403 3423 Crs
+6475 3267 Crs
+6548 3107 Crs
+6621 2944 Crs
+6694 2779 Crs
 6159 3848 Crs
 % End plot #4
 % Begin plot #5
 1.000 UL
-LT4
-LC4 setrgbcolor
-/Helvetica findfont 240 scalefont setfont
+LTb
+0.94 0.89 0.26 C /Helvetica findfont 240 scalefont setfont
 LCb setrgbcolor
 5696 3608 M
 ('' u 1:6) Rshow
-LT4
-5840 3608 M
+1.000 UL
+LTb
+0.94 0.89 0.26 C 5840 3608 M
 639 0 V
 936 2616 M
 73 -166 V
@@ -1104,105 +1143,26 @@ LT4
 % Begin plot #6
 1.000 UP
 stroke
-LT5
-LC5 setrgbcolor
-/Helvetica findfont 240 scalefont setfont
+LTb
+0.00 0.45 0.70 C /Helvetica findfont 240 scalefont setfont
 LCb setrgbcolor
 5696 3368 M
 ('' u 1:7) Rshow
-LT5
-936 501 Star
-1009 508 Star
-1082 528 Star
-1155 560 Star
-1228 605 Star
-1300 663 Star
-1373 733 Star
-1446 814 Star
-1519 906 Star
-1592 1009 Star
-1665 1122 Star
-1738 1244 Star
-1811 1374 Star
-1884 1513 Star
-1956 1657 Star
-2029 1808 Star
-2102 1964 Star
-2175 2124 Star
-2248 2287 Star
-2321 2452 Star
-2394 2618 Star
-2467 2783 Star
-2540 2948 Star
-2612 3111 Star
-2685 3271 Star
-2758 3427 Star
-2831 3577 Star
-2904 3722 Star
-2977 3860 Star
-3050 3990 Star
-3123 4112 Star
-3196 4225 Star
-3268 4327 Star
-3341 4419 Star
-3414 4500 Star
-3487 4570 Star
-3560 4627 Star
-3633 4672 Star
-3706 4704 Star
-3779 4724 Star
-3852 4730 Star
-3924 4723 Star
-3997 4703 Star
-4070 4671 Star
-4143 4626 Star
-4216 4568 Star
-4289 4498 Star
-4362 4417 Star
-4435 4325 Star
-4507 4222 Star
-4580 4109 Star
-4653 3987 Star
-4726 3857 Star
-4799 3718 Star
-4872 3574 Star
-4945 3423 Star
-5018 3267 Star
-5091 3107 Star
-5163 2944 Star
-5236 2779 Star
-5309 2613 Star
-5382 2448 Star
-5455 2283 Star
-5528 2120 Star
-5601 1960 Star
-5674 1804 Star
-5747 1654 Star
-5819 1509 Star
-5892 1371 Star
-5965 1241 Star
-6038 1119 Star
-6111 1006 Star
-6184 904 Star
-6257 812 Star
-6330 731 Star
-6403 661 Star
-6475 604 Star
-6548 559 Star
-6621 527 Star
-6694 507 Star
-6159 3368 Star
+1.000 UP
+1.000 UL
+LTb
+0.00 0.45 0.70 C 6159 3368 Star
 % End plot #6
 % Begin plot #7
 1.000 UL
-LT6
-LC6 setrgbcolor
-/Helvetica findfont 240 scalefont setfont
+LTb
+0.90 0.12 0.06 C /Helvetica findfont 240 scalefont setfont
 LCb setrgbcolor
 5696 3128 M
 ('' u 1:8) Rshow
-LT6
-5840 3128 M
+1.000 UL
+LTb
+0.90 0.12 0.06 C 5840 3128 M
 639 0 V
 936 501 M
 73 7 V
@@ -1289,97 +1249,101 @@ LT6
 % Begin plot #8
 1.000 UP
 stroke
-LT7
-LC7 setrgbcolor
-/Helvetica findfont 240 scalefont setfont
+LTb
+0.00 0.00 0.00 C /Helvetica findfont 240 scalefont setfont
 LCb setrgbcolor
 5696 2888 M
 ('' u 1:9) Rshow
-LT7
-936 2619 TriU
-1009 2785 TriU
-1082 2949 TriU
-1155 3112 TriU
-1228 3272 TriU
-1300 3428 TriU
-1373 3578 TriU
-1446 3723 TriU
-1519 3861 TriU
-1592 3991 TriU
-1665 4113 TriU
-1738 4225 TriU
-1811 4328 TriU
-1884 4420 TriU
-1956 4501 TriU
-2029 4570 TriU
-2102 4627 TriU
-2175 4673 TriU
-2248 4704 TriU
-2321 4723 TriU
-2394 4730 TriU
-2467 4723 TriU
-2540 4703 TriU
-2612 4670 TriU
-2685 4626 TriU
-2758 4568 TriU
-2831 4498 TriU
-2904 4417 TriU
-2977 4324 TriU
-3050 4221 TriU
-3123 4109 TriU
-3196 3987 TriU
-3268 3856 TriU
-3341 3718 TriU
-3414 3572 TriU
-3487 3422 TriU
-3560 3266 TriU
-3633 3106 TriU
-3706 2943 TriU
-3779 2778 TriU
-3852 2612 TriU
-3924 2446 TriU
-3997 2281 TriU
-4070 2119 TriU
-4143 1959 TriU
-4216 1804 TriU
-4289 1653 TriU
-4362 1508 TriU
-4435 1370 TriU
-4507 1239 TriU
-4580 1119 TriU
-4653 1006 TriU
-4726 903 TriU
-4799 811 TriU
-4872 730 TriU
-4945 661 TriU
-5018 604 TriU
-5091 558 TriU
-5163 527 TriU
-5236 507 TriU
-5309 501 TriU
-5382 508 TriU
-5455 528 TriU
-5528 560 TriU
-5601 606 TriU
-5674 664 TriU
-5747 733 TriU
-5819 814 TriU
-5892 907 TriU
-5965 1010 TriU
-6038 1123 TriU
-6111 1244 TriU
-6184 1375 TriU
-6257 1513 TriU
-6330 1659 TriU
-6403 1809 TriU
-6475 1965 TriU
-6548 2125 TriU
-6621 2288 TriU
-6694 2453 TriU
-6159 2888 TriU
-% End plot #8
+1.000 UP
 1.000 UL
 LTb
+0.00 0.00 0.00 C 936 2620 Box
+1009 2786 Box
+1082 2950 Box
+1155 3113 Box
+1228 3272 Box
+1300 3429 Box
+1373 3580 Box
+1446 3723 Box
+1519 3861 Box
+1592 3991 Box
+1665 4114 Box
+1738 4225 Box
+1811 4329 Box
+1884 4421 Box
+1956 4503 Box
+2029 4572 Box
+2102 4629 Box
+2175 4672 Box
+2248 4705 Box
+2321 4726 Box
+2394 4730 Box
+2467 4721 Box
+2540 4704 Box
+2612 4671 Box
+2685 4624 Box
+2758 4565 Box
+2831 4497 Box
+2904 4419 Box
+2977 4327 Box
+3050 4221 Box
+3123 4109 Box
+3196 3988 Box
+3268 3858 Box
+3341 3719 Box
+3414 3574 Box
+3487 3423 Box
+3560 3268 Box
+3633 3107 Box
+3706 2945 Box
+3779 2780 Box
+3852 2614 Box
+3924 2448 Box
+3997 2283 Box
+4070 2120 Box
+4143 1960 Box
+4216 1806 Box
+4289 1654 Box
+4362 1508 Box
+4435 1370 Box
+4507 1241 Box
+4580 1121 Box
+4653 1010 Box
+4726 908 Box
+4799 814 Box
+4872 735 Box
+4945 663 Box
+5018 605 Box
+5091 562 Box
+5163 527 Box
+5236 508 Box
+5309 501 Box
+5382 506 Box
+5455 527 Box
+5528 558 Box
+5601 605 Box
+5674 662 Box
+5747 729 Box
+5819 811 Box
+5892 902 Box
+5965 1007 Box
+6038 1116 Box
+6111 1239 Box
+6184 1370 Box
+6257 1507 Box
+6330 1652 Box
+6403 1803 Box
+6475 1959 Box
+6548 2119 Box
+6621 2281 Box
+6694 2446 Box
+6159 2888 Box
+% End plot #8
+2.000 UL
+LTb
+LCb setrgbcolor
+1.000 UL
+LTB
 LCb setrgbcolor
 936 4751 N
 936 480 L
