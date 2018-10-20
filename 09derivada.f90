@@ -6,20 +6,23 @@ end program
 subroutine derivadas()
   implicit none
   real(8), parameter :: pi = 4*atan(1.0)
-  real(8) :: x, dx, xmax, del
+  real(8) :: x, dx, xmax, del!, delm1
   real(8), external :: sen
-  real(8) :: der, der2, der3, der4, dern, derr
+  real(8) :: der1, der2, der3, der4, dern, derr, diffn
   open(unit=13,file="derivada.dat",status="unknown")
 
   del = 1.d-3
+  !delm1 = 10**4
   xmax = 2.d0*pi
   dx = pi/40.d0
   x = -dx
   do
     x = x + dx
-    !write(13,*) x, sen(x),der(sen,x,del),dcos(x),der2(sen,x,del),-dsin(x),der3(sen,x,del),-dcos(x),der4(sen,x,del)
-    write(13,*) x, sen(x),dern(sen,x,del,1),dcos(x),dern(sen,x,del,2),-dsin(x),dern(sen,x,del,3),-dcos(x),dern(sen,x,del,4)
+    !write(13,*) x, sen(x),der1(sen,x,del),dcos(x),der2(sen,x,del),-dsin(x),der3(sen,x,del),-dcos(x),der4(sen,x,del)
+    !write(13,*) x, sen(x),dern(sen,x,del,1),dcos(x),dern(sen,x,del,2),-dsin(x),dern(sen,x,del,3),-dcos(x),dern(sen,x,del,4)
+    !write(13,*) x, sen(x),dern(sen,x,delm1,1),dcos(x),dern(sen,x,delm1,2),-dsin(x),dern(sen,x,delm1,3),-dcos(x),dern(sen,x,delm1,4)
     !write(13,*) x,sen(x),derr(sen,x,del,1),dcos(x),derr(sen,x,del,2),-dsin(x),derr(sen,x,del,3),-dcos(x),derr(sen,x,del,4)
+    write(13,*) x,sen(x),diffn(sen,x,del,1),dcos(x),diffn(sen,x,del,2),-dsin(x),diffn(sen,x,del,3),-dcos(x),diffn(sen,x,del,4)
     if (x > xmax) exit
   enddo
   close(13)
@@ -46,7 +49,7 @@ function sen(x)
   sen = dsin(x)
 end function sen
 !------------------------------------------------------------------------------------------------------------------------------------
-function der(f,x,h)
+function der1(f,x,h)
   implicit none
   real(8) :: der
   real(8) :: x, h
@@ -56,7 +59,7 @@ function der(f,x,h)
   !der = (f(x+h)-f(x-h))/(2.0*h)  ! erro ~ h**3
   !der = (-f(x+2*h)+8*f(x+h)-8*f(x-h)+f(x-2*h))/(12*h)  ! erro ~ h**4
 
-end function der
+end function der1
 !------------------------------------------------------------------------------------------------------------------------------------
 function der2(f,x,h)
   implicit none
@@ -100,16 +103,23 @@ function dern(f,x,h,n)
   real(8), external :: f
   integer :: n, j
   integer(8) :: newtonb
+  !real(8) :: ha
+
+  !ha = 1.d0/h
 
   dern = 0.d0
     do j = 0, n
       if2: if (mod(n-j,2) == 0) then
         dern = dern + newtonb(n,j)*f(x+(n-j)*h)
+        !dern = dern + newtonb(n,j)*f(x+(n-j)*ha)
       else
         dern = dern - newtonb(n,j)*f(x+(n-j)*h)
+        !dern = dern - newtonb(n,j)*f(x+(n-j)*ha)
       endif if2
+      !if(j==3)write(*,*)dern
     enddo
   dern = dern/h**n
+  !dern = dern*h**n
 
 end function dern
 !------------------------------------------------------------------------------------------------------------------------------------
@@ -139,4 +149,33 @@ recursive function derr(f,x,h,order) result(dn)
   end if
 
 end function derr
+!------------------------------------------------------------------------------------------------------------------------------------
+function diffn(f,x,h,n)
+  implicit none
+  real(8) :: diffn
+  real(8), external :: f
+  real(8) :: x, h
+  integer :: n
+  integer :: j,k,l,nj
+  real(8), allocatable :: yd(:), y(:)
+
+  allocate(y(1:n+1))
+  dol: do l = 1, n+1
+    y(l) = f(x+(l-1)*h)
+  enddo dol
+  doj: do j = 1, n-1
+    nj = n+1-j
+    allocate(yd(1:nj))
+    dok: do k = 1, nj
+      yd(k) = (y(k+1)-y(k))/h
+    enddo dok
+    deallocate(y)
+    allocate(y(1:nj))
+    y = yd
+    deallocate(yd)
+  enddo doj
+  diffn = (y(2)-y(1))/h
+  deallocate(y)
+
+end function diffn
 !------------------------------------------------------------------------------------------------------------------------------------
