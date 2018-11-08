@@ -1,7 +1,7 @@
 !------------------------------------------------------------------------------------------------------------------------------------
-program derivada  ! gfortran 09derivada.f90 04fatorial.f90
-  call derivadas()
-end program
+!program derivada  ! gfortran 09derivada.f90 04fatorial.f90
+!  call derivadas()
+!end program
 !------------------------------------------------------------------------------------------------------------------------------------
 subroutine derivadas()
   implicit none
@@ -51,13 +51,13 @@ end function sen
 !------------------------------------------------------------------------------------------------------------------------------------
 function der1(f,x,h)
   implicit none
-  real(8) :: der
+  real(8) :: der1
   real(8) :: x, h
   real(8), external :: f
 
-  der = (f(x+h)-f(x))/h  ! erro ~ h**2
-  !der = (f(x+h)-f(x-h))/(2.0*h)  ! erro ~ h**3
-  !der = (-f(x+2*h)+8*f(x+h)-8*f(x-h)+f(x-2*h))/(12*h)  ! erro ~ h**4
+  der1 = (f(x+h)-f(x))/h  ! erro ~ h**2
+  !der1 = (f(x+h)-f(x-h))/(2.0*h)  ! erro ~ h**3
+  !der1 = (-f(x+2*h)+8*f(x+h)-8*f(x-h)+f(x-2*h))/(12*h)  ! erro ~ h**4
 
 end function der1
 !------------------------------------------------------------------------------------------------------------------------------------

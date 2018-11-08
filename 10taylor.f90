@@ -9,17 +9,18 @@ end program taylorr
 subroutine subtaylor()
   implicit none
   real(8), parameter :: pi = 4*atan(1.0)
-  real(8) :: x, dx, xmax, x0, taylor
+  real(8) :: x, dx, xmax, x0, taylor, h
   real(8), external :: sen
   open(unit=13,file="taylor.dat",status="unknown")
 
+  h = 0.01d0
   xmax = 2.d0*pi
   dx = pi/100.d0
   x0 = pi/2.d0
   x = -dx
   do
     x = x + dx
-    write(13,*) x,sen(x),taylor(sen,x,x0,1),taylor(sen,x,x0,2),taylor(sen,x,x0,3),taylor(sen,x,x0,4),taylor(sen,x,x0,5)
+    write(13,*) x,sen(x),taylor(sen,x,x0,1,h),taylor(sen,x,x0,2,h),taylor(sen,x,x0,3,h),taylor(sen,x,x0,4,h),taylor(sen,x,x0,5,h)
     if(x>xmax)exit
   enddo
 
@@ -35,16 +36,16 @@ subroutine subtaylor()
             '' u 1:6 w p pt 1"
   close(14)
   call system("gnuplot taylor.gnu")
-  call system("evince taylor.eps&")
+  !call system("evince taylor.eps&")
+  call system("open -a skim taylor.eps&")
 
 end subroutine subtaylor
 !------------------------------------------------------------------------------------------------------------------------------------
-function taylor(f,x,x0,order)
+function taylor(f,x,x0,order,h)
   implicit none
-  real(8) :: taylor, x, x0, diffn
+  real(8) :: taylor, x, x0, h, diffn
   integer :: order, j, fat
   real(8), external :: f
-  real(8), parameter :: h = 1.d-2
 
   taylor = f(x0)
   do j = 1, order
@@ -83,7 +84,8 @@ subroutine taylor_decomposition()
             '' u 1:6 w p pt 1,'' u 1:7 w p pt 1,'' u 1:8 w p pt 1,'' u 1:9 w p pt 1"
   close(14)
   call system("gnuplot taylor_decomp.gnu")
-  call system("evince taylor_decomp.eps&")
+  !call system("evince taylor_decomp.eps&")
+  call system("open -a skim taylor_decomp.eps&")
 
 end subroutine
 !------------------------------------------------------------------------------------------------------------------------------------
