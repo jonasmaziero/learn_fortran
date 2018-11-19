@@ -6,11 +6,11 @@ end program
 subroutine roots_test()
   use modfunc
   implicit none
-  real(8) :: err, xi, xf, xr, dx, x
+  real(8) :: err, xi, xf, xr, dx, xm, x, xk
   integer :: Nm
   !real(8), external :: func
   real(8) :: xe, xd
-  integer :: Er
+  integer :: Er ! diz se há ou não raíz em um determinado intervalo
   open(unit=13,file="roots.dat",status="unknown")
 
   err = 1.d-5;  Nm = 10**3  ! erro e no. máximo de iterações
@@ -34,6 +34,9 @@ subroutine roots_test()
   xe = xi;  xd = xf
   call bissection(func,xe,xd,err,Nm,xr,Er)
   write(*,*) "xr = ",xr,"f(xr) = ", func(xr)
+  xk = 1.5d0
+  call newton(func,xk,err,Nm,dx)
+  stop
 
   write(*,*) "Obtendo várias raízes"
   xe = xi - dx
@@ -72,6 +75,25 @@ subroutine bissection(f,xe,xd,err,Nm,xr,Er)
     end do do1
     xr = xm;  Er = 1
   end if if1
+
+end subroutine
+!-----------------------------------------------------------------------------------------------------------------------------------
+subroutine newton(f,xk,err,Nm,h)
+  implicit none
+  real(8), external :: f
+  real(8) :: xk, err, diffn, h
+  integer :: Ni, Nm
+
+  Ni = 0
+  do1: do
+    if1: if ( dabs(f(xk)) < err ) then
+      exit do1
+    else
+      xk = xk - f(xk)/diffn(f,xk,h,1)
+      write(*,*) 'xk = ', xk, 'f(xk) = ', f(xk)
+    end if if1
+    Ni = Ni + 1;  if (Ni > Nm) exit do1
+  end do do1
 
 end subroutine
 !-----------------------------------------------------------------------------------------------------------------------------------
