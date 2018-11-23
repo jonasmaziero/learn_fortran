@@ -16,7 +16,7 @@ subroutine test_opt()
   open(unit=13,file='opt_f.dat',status='unknown')
 
   dx(1) = 0.05;  dx(2) = 0.05
-  xmin(1) = -10;  xmax(2) = -10
+  xmin(1) = -10;  xmin(2) = -10
   xmax(1) = 10;  xmax(2) = 10
   x(1) = xmin(1) - dx(1)
   do1: do
@@ -34,23 +34,7 @@ subroutine test_opt()
   xi(1) = -8; xi(2) = -5
   call grad_desc(ff,d,xi,err,Nmax,del,xf)
   write(*,*) 'xf = ', xf, ', f(d,xf) =', ff(d,xf)
-
-  open(unit=14,file="opt.gnu",status="unknown")
-  write(14,*)"reset"
-  write(14,*)"set terminal postscript color enhanced 'Helvetica' 24"
-  write(14,*)"set output 'opt.eps'"
-  write(14,*)"set contour base"
-  write(14,*)"set pm3d map"
-  write(14,*)"set cntrparam bspline"
-  write(14,*)"set view map"
-  write(14,*)"splot 'opt_f.dat' u 1:2:3 ls 1 w l nosurface notitle, \"
-  write(14,*)"      'opt_x.dat' u 1:2:(0) w lp ls 2 nocontour"
-  close(14)
-  call system("gnuplot opt.gnu")
-  !call system("evince opt.eps&")
-  call system("open -a skim opt.eps&")
-  close(14)
-
+  
 end subroutine
 !-----------------------------------------------------------------------------------------------------------------------------------
 subroutine grad_desc(f,d,xjm1,err,Nmax,del,xj)  ! algorithm from wikipedia
@@ -187,6 +171,6 @@ function ff(d,x)
   real(8) :: x(d)
 
   ff = 2*x(1)**2 + x(1) + 3*x(2)**2
-  
+
 end function
 !-----------------------------------------------------------------------------------------------------------------------------------
