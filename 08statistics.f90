@@ -1,10 +1,10 @@
 !------------------------------------------------------------------------------------------------------------------------------------
-program estatistica
-  call statistics()
+!program estatistica
+!  call statistics()
   !write(*,*) ;  call composto()
-end program
+!end program
 !------------------------------------------------------------------------------------------------------------------------------------
-subroutine statistics()
+subroutine statistics(dp)
   implicit none
   integer, parameter :: d = 6  ! constantes em Fortran
   real :: dp(d), normalizacao, va(d), media, media2, desvio_padrao, mediana

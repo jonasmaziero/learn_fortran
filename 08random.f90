@@ -1,15 +1,16 @@
 !------------------------------------------------------------------------------------------------------------------------------------
-!program rand
+program rand
 !  implicit none
-!  real :: dp(2), dpd(6)
+  real :: dp(2), dpd(6)
 
 !  call init_gnu() ! initicializa o gerador de números aleatórios
   !call random_real()
   !call random_integer()
   !call simula_moeda(10**6,dp); write(*,*) dp
-!  call simula_dado(10**6,dpd); write(*,*) dpd
 
-!end program
+  call simula_dado(10**2,dpd); write(*,*) dpd
+
+end program
 !------------------------------------------------------------------------------------------------------------------------------------
 subroutine simula_moeda(N,dp)
   implicit none
@@ -47,6 +48,8 @@ subroutine simula_dado(N,dp)
     enddo
   enddo
   dp = dp/N
+  open(unit=13,file='dado.dat',status='unknown')
+  do j = 1, 6; write(13,*) j, dp(j);  enddo
 
 end subroutine
 !------------------------------------------------------------------------------------------------------------------------------------
@@ -120,15 +123,16 @@ CALL RANDOM_SEED(put=seed)
 
 end
 !------------------------------------------------------------------------------------------------------------------------------------
-subroutine rand_real(d, rn) ! Calls the Gnu "standard" random number generator. See https://gcc.gnu.org/onlinedocs/gfortran/RANDOM_005fNUMBER.html
-! The runtime-library implements George Marsaglia's KISS (Keep It Simple Stupid) random number generator.
-implicit none
-integer :: d  ! Dimension of the vector of random numbers
-real(8) :: rn(1:d) ! Vector whose components are random numbers uniformly distributed in [0,1)
+subroutine rand_real(d, rn) ! Calls the Gnu "standard" random number generator.
+  !See https://gcc.gnu.org/onlinedocs/gfortran/RANDOM_005fNUMBER.html
+  ! The runtime-library implements George Marsaglia's KISS (Keep It Simple Stupid) random number generator.
+  implicit none
+  integer :: d  ! Dimension of the vector of random numbers
+  real(8) :: rn(1:d) ! Vector whose components are random numbers uniformly distributed in [0,1)
 
-call random_number(rn)
+  call random_number(rn)
 
-end
+end subroutine
 !------------------------------------------------------------------------------------------------------------------------------------
 subroutine rand_int(minn,maxx,d,rn)
   implicit none

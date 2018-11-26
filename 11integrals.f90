@@ -12,7 +12,7 @@ subroutine integral_tests()
   open(unit=13,file="integral.dat",status="unknown")
 
   !write(*,*) pi
-  N = 100 ! delta = (xN-x0)/N=(N*delta-)
+  N = 10 ! delta = (xN-x0)/N=(N*delta-)
   x0 = 0.d0!;  xN = 2.d0*pi
   dx = pi/dble(N)
   xN = x0
@@ -45,9 +45,11 @@ function integral(f,x0,xN,N)
   delta = (xN-x0)/dble(N)
   integral = 0.d0
   do j = 1, N
-    !integral = integral + f(x0+j*delta) ! definição
-    integral = integral + (f(x0+(j-1)*delta)+f(x0+j*delta))/2.d0 ! trapezio
-    ! simpson
+    !integral = integral + f(x0+j*delta)  ! retangulo (definição)
+    !integral = integral + (f(x0+(j-1)*delta)+f(x0+j*delta))/2.d0 ! trapezio
+    integral = integral + (f(x0+(j-1)*delta)+4.d0*f((2.d0*x0+delta*(2*j-1))/2.d0)+f(x0+j*delta))/6.d0  ! simpson
+    ! simpson 3/8
+    ! boole
   end do
   integral = integral*delta
 
