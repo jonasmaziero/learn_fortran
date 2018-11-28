@@ -1,8 +1,8 @@
 !-----------------------------------------------------------------------------------------------------------------------------------
-!program opt
-!  call test_opt()
+program opt
+  call test_opt()
   !call test_der_par()
-!end
+end
 !-----------------------------------------------------------------------------------------------------------------------------------
 subroutine test_opt()
   implicit none
@@ -35,6 +35,7 @@ subroutine test_opt()
   call grad_desc(ff,d,xi,err,Nmax,del,xf)
   write(*,*) 'xf = ', xf, ', f(d,xf) =', ff(d,xf)
   ! os gráficos são feitos com o Jupyter: https://github.com/jonasmaziero/jupyterQ, no arquivo opt.ipynb
+  call system("python3 17opt.py&")
 
 end subroutine
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -48,7 +49,7 @@ subroutine grad_desc(f,d,xjm1,err,Nmax,del,xj)  ! algorithm from wikipedia
   integer :: Nmax, Nint ! número máximo e atual de interações
   real(8) :: norm, inner, gj
   real(8) :: dx(d), xj(d), xjm1(d), dg(d), gradj(d), gradjm1(d)
-  !open(unit=13,file='opt_x.dat',status='unknown')
+  open(unit=13,file='opt_x.dat',status='unknown')
 
   call gradiente(f,d,xjm1,del,gradjm1)
   xj = xjm1 - 0.00001*gradjm1
@@ -61,11 +62,11 @@ subroutine grad_desc(f,d,xjm1,err,Nmax,del,xj)  ! algorithm from wikipedia
     Nint = Nint + 1
     xjm1 = xj;  gradjm1 = gradj
     xj = xjm1 - gj*gradjm1
-    !write(13,*) xj(1), xj(2)
+    write(13,*) xj(1), xj(2)
     call gradiente(f,d,xj,del,gradj)
     dx = xj - xjm1;  dg = gradj - gradjm1
     gj = inner(d,dx,dg)/(norm(d,dg)**2)
-    !write(*,*) 'Nint = ', Nint, ', xj = ', xj
+    write(*,*) 'Nint = ', Nint, ', xj = ', xj
     if (norm(d,gradj) < err .or. Nint > Nmax) exit
   end do
 

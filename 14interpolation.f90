@@ -35,8 +35,8 @@ subroutine test_interpol()
   write(14,*)"              'interpol.dat' u 1:3 w l lt 0"
   close(14)
   call system("gnuplot interpol.gnu")
-  !call system("evince interpol.eps&")
-  call system("open -a skim interpol.eps&")
+  call system("evince interpol.eps&")
+  !call system("open -a skim interpol.eps&")
 
 end subroutine
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -77,4 +77,4 @@ function linear_interpol(n,x,f,x0)
 
 end function
 !-----------------------------------------------------------------------------------------------------------------------------------
-! spline cubico
+! spline cubico??
