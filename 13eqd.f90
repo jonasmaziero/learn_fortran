@@ -1,17 +1,17 @@
 !-----------------------------------------------------------------------------------------------------------------------------------
 program eqd
-  !call test_euler1()
+  call test_eq1()
   !call test_sed()
-  call projetil()
+  !call projetil()
 end program
 !-----------------------------------------------------------------------------------------------------------------------------------
-subroutine test_euler1()
+subroutine test_eq1()
   implicit none
   real(8) :: x0, x, t, del, euler1
   real(8), external :: func
   open(unit=13,file="euler.dat",status="unknown")
   del = 1.d-3
-  x0 = 0.d0
+  t = 0;  x0 = 0
   do
     x = euler1(func,x0,t,del);  write(13,*) t, x
     x0 = x;  t = t + del;  if ( t > 3.d0 ) exit
@@ -21,17 +21,12 @@ subroutine test_euler1()
   write(14,*) "reset"
   write(14,*) "set terminal postscript color enhanced 'Helvetica' 24"
   write(14,*) "set output 'euler.eps'"
-  write(14,*) "plot 'euler.dat' u 1:2 w lp, x"
-  !write(14,*) "plot 'euler.dat' u 1:2 w lp, 0.5*x**2"
+  !write(14,*) "plot 'euler.dat' u 1:2 w p pt 1, x w p pt 2"
+  write(14,*) "plot 'euler.dat' u 1:2 w p pt 1, 0.5*x**2 w p pt 2"
   close(14)
   call system("gnuplot euler.gnu")
-  !DEC$ IF DEFINED(_WIN32)
-    write(*,*) "no ruindows"
-  !DEC$ ELSEIF DEFINED(__linux)
-    call system("evince euler.eps&")
-  !DEC$ ELSE
-    call system("open -a skim euler.eps&")
-  !DEC$ ENDIF
+  !call system("evince euler.eps&")
+  call system("open -a skim euler.eps&")
 end subroutine
 !-----------------------------------------------------------------------------------------------------------------------------------
 function euler1(f,xt,t,del) ! ED de ordem 1 e 1 variável
@@ -49,10 +44,9 @@ function func(x,t)
   real(8) :: func, x, t
   real(8) :: v0, a
 
-  a = 1.d0
-  func = a ! = F/m=cte
-  !v0 = 0.d0
-  !func = v0 + a*t! v=v0+at => x'=x0+v0*t+a*t**2/2
+  a = 1
+  v0 = 0
+  func = v0 + a*t! v=v0+at => x'=x0+v0*t+a*t**2/2
 
 end function
 !-----------------------------------------------------------------------------------------------------------------------------------
@@ -77,11 +71,8 @@ subroutine test_sed()
   write(14,*) "plot 'sed.dat' u 1:2 w p, '' u 1:3 w l"
   close(14)
   call system("gnuplot sed.gnu")
-  !DEC$ IF DEFINED(__linux)
-    call system("evince sed.eps&")
-  !DEC$ ELSE
-    call system("open -a skim sed.eps&")
-  !DEC$ ENDIF
+  !call system("evince sed.eps&")
+  call system("open -a skim sed.eps&")
 end subroutine
 !-----------------------------------------------------------------------------------------------------------------------------------
 subroutine rungekutta1(d,xt,t,del,xtp1)  ! = euler
@@ -144,7 +135,7 @@ subroutine projetil()
   write(14,*) "'projetilk1.dat' u 2:3 w l t 'k=1', 'projetilk2.dat' u 2:3 w l t 'k=2'"
   close(14)
   call system("gnuplot projetil.gnu")
-  call system("evince projetil.eps&")
-  !call system("open -a skim projetil.eps&")
+  !call system("evince projetil.eps&")
+  call system("open -a skim projetil.eps&")
 end subroutine
 !-----------------------------------------------------------------------------------------------------------------------------------

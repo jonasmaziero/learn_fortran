@@ -1,7 +1,7 @@
 !-----------------------------------------------------------------------------------------------------------------------------------
-program roots !gfortran 12modfunc.f90 12roots.f90
-  call roots_test()
-end program
+!program roots !gfortran 12modfunc.f90 12roots.f90
+!  call roots_test()
+!end program
 !-----------------------------------------------------------------------------------------------------------------------------------
 subroutine roots_test()
   use modfunc
@@ -73,7 +73,7 @@ subroutine bissection(f,xe,xd,err,Nm,xr,Er)
       end if if2
       Ni = Ni + 1;  if (Ni > Nm) exit do1
     end do do1
-    xr = xm;  Er = 1
+    xr = xm;  Er = 1 ! Er = 1 quando tem raiz e Er=0 quando não tem
   end if if1
 
 end subroutine
