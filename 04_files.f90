@@ -1,5 +1,5 @@
 !------------------------------------------------------------------------------------------------------------------------------------
-program files
+program files ! Compila com: gfortran 04_files.f90 04_fatorial.f90
   !call arquivo()
   call plot1d()
   !call plot_sencos()

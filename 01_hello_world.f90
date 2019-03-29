@@ -1,7 +1,8 @@
 program hello
   write(*,*) "Hello World"
 end program
-! Compila com:
+! No terminal, use "cd nome_da_pasta" pra ir para o diretorio onde esta o programa."
+! Então compila com:
 ! gfortran 01_hello_world.f90
-! Executa com
+! E executa com
 ! ./a.out

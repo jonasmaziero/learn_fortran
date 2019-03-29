@@ -6,8 +6,6 @@ program plots
   real, parameter :: pi = 4.0*atan(1.0)
   real :: ti,tf
 
-  !call plot1D()
-
   arq = "'sen.dat'"
   dth = pi/100.0
   dom = 0.1
@@ -30,6 +28,8 @@ program plots
       if ((tf - ti) > 1) exit dott
     end do dott
   end do doo
+
+  call plot1D()
 
 end program
 !------------------------------------------------------------------------------------------------------------------------------------
