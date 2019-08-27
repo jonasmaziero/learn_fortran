@@ -1,19 +1,19 @@
-!------------------------------------------------------------------------------------------------------------------------------------
-program files ! Compila com: gfortran 04_files.f90 04_fatorial.f90
-  !call arquivo()
-  call plot1d()
-  !call plot_sencos()
+!-------------------------------------------------------------------------------
+program files ! Compila com: gfortran 07_files.f90 07_fatorial.f90
+  call arquivo()
+  !call plot2d()
   !call plot3d()
   !call projetil()
   !call append_data()
 end
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 subroutine arquivo()
   implicit none
   integer :: j, fat
   integer :: k, l
   real :: x
-  open(unit = 13, file = "fat.dat", status = "unknown") ! Abre ou cria um arquivo chamado fat.dat na pasta atual
+  open(unit = 13, file = "fat.dat", status = "unknown")
+  ! Abre ou cria um arquivo chamado fat.dat na pasta atual
   open(unit = 14, file = "fat_log.dat", status = "unknown")
 
   do j = 1, 10
@@ -36,8 +36,8 @@ subroutine arquivo()
   close(13)
 
 end
-!------------------------------------------------------------------------------------------------------------------------------------
-subroutine plot1d()
+!-------------------------------------------------------------------------------
+subroutine plot2d() ! Exercício
   implicit none
   real :: th, dth, pi
   open(unit=13,file="sen.dat",status="unknown")
@@ -52,35 +52,7 @@ subroutine plot1d()
   end do
 
 end subroutine
-!------------------------------------------------------------------------------------------------------------------------------------
-subroutine plot_sencos()
-  implicit none
-  real :: pi, th, dth
-  real :: x, y, z
-  open(unit=13,file="sen_cos.dat",status="unknown")
-
-  pi = 4.0*atan(1.0)
-  dth = pi/100.0
-  th = -2.0*pi
-  do
-    th = th + dth
-    write(13,*) th, sin(th), cos(th)
-    if (th > 2.0*pi) exit
-  end do
-
-  close(13)
-  open(unit=13,file="sen_cos.dat",status="unknown")
-  th = -2.0*pi
-  do
-    th = th + dth
-    read(13,*) x, y, z
-    write(*,*) z, y, z
-    if (th > 2.0*pi) exit
-  end do
-  close(13)
-
-end subroutine
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 subroutine plot3d()
   implicit none
   real :: th, dth, ph, dph, pi
@@ -102,7 +74,7 @@ subroutine plot3d()
   end do do1
 
 end subroutine
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 subroutine projetil()
   implicit none
   real :: x, dx, th0, dth0, pi, v0, trajetoria
@@ -125,6 +97,7 @@ subroutine projetil()
   end do do1
   close(13)
   write(*,*) pi/4.0
+  ! Comandos para o gnuplot
   !set ticslevel 0
   !set xlabel 'th0'
   !set ylabel 'x'
@@ -132,7 +105,7 @@ subroutine projetil()
   !splot [0:][0:][0:] "trajetoria.dat" w p ps 0.1
 
 end subroutine
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 real function trajetoria(x, th0, v0)
   implicit none
   real :: x, th0, v0, g
@@ -141,7 +114,7 @@ real function trajetoria(x, th0, v0)
   trajetoria = x*tan(th0) - (g*x**2.0)/(2.0*(v0**2.0)*(cos(th0)**2.0))
 
 end function
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 subroutine append_data()  ! Adicionando dados em um arquivo existente
   implicit none
   integer :: j

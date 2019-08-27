@@ -103,7 +103,7 @@ subroutine display_array(A, nl, nc)
   integer :: nl, nc, j, k
 
   do j = 1, nl
-    write(*,*) (A(j,k), k=1,nc)  ! implied d
+    write(*,*) (A(j,k), k=1,nc)  ! implied do
   enddo
 
 end subroutine

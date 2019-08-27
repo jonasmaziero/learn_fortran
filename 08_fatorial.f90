@@ -1,5 +1,5 @@
 !------------------------------------------------------------------------------------------------------------------------------------
-function fat(n)  ! Usado junto com o programa 04files.f90, como exemplo de compilação simultânea de vários programas
+function fat(n)
 implicit none
 integer(8) :: fat
 integer :: n, j

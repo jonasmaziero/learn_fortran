@@ -6,7 +6,7 @@ program plots
   real, parameter :: pi = 4.0*atan(1.0)
   real :: ti,tf
 
-  arq = "'sen.dat'"
+  arq = "'sen.dat'" ! nome do arquivo de dados
   dth = pi/100.0
   dom = 0.1
   om = -dom
@@ -29,35 +29,38 @@ program plots
     end do dott
   end do doo
 
-  call plot1D()
+  call plot2D(arq)
 
 end program
 !------------------------------------------------------------------------------------------------------------------------------------
-subroutine plot1D()  ! Basic 1D plot with gnuplot from a data file
+subroutine plot2D(arq)  ! Basic 2D plot with gnuplot from a data file
   implicit none
+  character(len=10) :: arq  ! nome do arquivo. Ex: 'fat.dat'
   open(unit=13, file="plot2d.gnu")
+
   write(13,*) "reset"
   write(13,*) "set terminal postscript enhanced 'Helvetica' 24"
   write(13,*) "set output 'plot2d.eps'"
   !write(13,*) "set xrange [0:2*pi]"
   !write(13,*) "set yrange [-1.01:1.01]"
-  write(13,*) "plot 'sen.dat' w l"
-  close(13)
-  call system("gnuplot plot2d.gnu")
-  call system("evince plot2d.eps &")
-end
-!------------------------------------------------------------------------------------------------------------------------------------
-subroutine plot2d(arq)
-  implicit none
-  character(len=10) :: arq  ! nome do arquivo. Ex: 'fat.dat'
-  open(unit=13, file="plot2d.gnu", status="unknown")
-  write(13,*) "reset"
-  write(13,*) "set terminal postscript enhanced 'Helvetica' 24"
-  write(13,*) "set output 'plot2d.eps'"
-  write(13,*) "plot "//arq
+  write(13,*) "plot"//arq
   close(13)
   call system("gnuplot plot2d.gnu")
   !call system("evince plot2d.eps &")
   call system("open -a skim plot2d.eps &")
+end
+!------------------------------------------------------------------------------------------------------------------------------------
+subroutine plot3d(arq)
+  implicit none
+  character(len=10) :: arq
+  open(unit=13, file="plot3d.gnu", status="unknown")
+  write(13,*) "reset"
+  write(13,*) "set terminal postscript enhanced 'Helvetica' 24"
+  write(13,*) "set output 'plot3d.eps'"
+  write(13,*) "plot "//arq
+  close(13)
+  call system("gnuplot plot3d.gnu")
+  !call system("evince plot2d.eps &")
+  call system("open -a skim plot3d.eps &")
 end subroutine
 !------------------------------------------------------------------------------------------------------------------------------------
