@@ -1,5 +1,9 @@
 !-------------------------------------------------------------------------------
+include '08_fatorial.f90'
+! maneira mais simples de compilar vários subprogramas de arquivos diferentes
+!-------------------------------------------------------------------------------
 program files ! Compila com: gfortran 07_files.f90 07_fatorial.f90
+  implicit none
   call arquivo()
   !call plot2d()
   !call plot3d()
@@ -14,14 +18,14 @@ subroutine arquivo()
   real :: x
   open(unit = 13, file = "fat.dat", status = "unknown")
   ! Abre ou cria um arquivo chamado fat.dat na pasta atual
-  open(unit = 14, file = "fat_log.dat", status = "unknown")
+  !open(unit = 14, file = "fat_log.dat", status = "unknown")
 
   do j = 1, 10
     write(13,*) j, fat(j), exp(real(j))
-    write(14,*) j, log(real(fat(j))), log(exp(real(j))) ! escala logarítmica
+    !write(14,*) j, log(real(fat(j))), log(exp(real(j))) ! escala logarítmica
   enddo
   close(13)
-  close(14)
+  !close(14)
   ! Digite "gnuplot" no terminal. Use
   ! plot "fat.dat" u 1:2 w lp, "" u 1:3 w lp
   ! plot "fat_log.dat" u 1:2 w lp, "" u 1:3 w lp
