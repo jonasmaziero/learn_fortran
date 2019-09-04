@@ -1,8 +1,8 @@
 !------------------------------------------------------------------------------------------------------------------------------------
-!program estatistica
-!  call statistics()
+program estatistica
+  call statistics()
   !write(*,*) ;  call composto()
-!end program
+end program
 !------------------------------------------------------------------------------------------------------------------------------------
 subroutine statistics(dp)
   implicit none

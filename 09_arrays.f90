@@ -1,36 +1,36 @@
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 program arrrays
   call array1D()
   !call array2D()
 end program
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 subroutine array1D()
   implicit none
   integer, parameter :: d = 2 ! constantes em Fortran
   real :: va(d), vb(d), pe, produto_escalar
   complex :: vac(d), vbc(d), pec
 
-  write(*,*)"entre com um array de d = 2"
+  write(*,*)"Entre com um array de d = 2"
   read(*,*) va
   write(*,*) va
   !stop
 
-  write(*,*)'arrays 1D'
+  write(*,*)'arrays 1D: 2 modos de inicialização'
   va = (/1,1/);  write(*,*) '|a> = ', va
-  vb(1) = 1; vb(2) = 1;  write(*,*) '|b> = ', vb
+  vb(1) = 2; vb(2) = 3;  write(*,*) '|b> = ', vb
   pe = produto_escalar(d, va, vb)
   write(*,*) "pe = ", pe
 
   write(*,*)'arrays 1D complexos'
-  vac(1) = 1.0; vac(2) = (0.0,1.0);  write(*,*) '|ac> = ', vac
-  vbc(1) = 1.0; vbc(2) = (0.0,1.0);  write(*,*) '|bc> = ', vbc
+  vac(1) = 1.0; vac(2) = (2.0,1.0);  write(*,*) '|ac> = ', vac
+  vbc(1) = 1.0; vbc(2) = (1.0,1.0);  write(*,*) '|bc> = ', vbc
   call produto_escalar_c(d, vac, vbc, pec)
   write(*,*) "pec = ", pec
-  write(*,"(A10,1F10.5)") "Re(pec) = ", real(pec)
-  write(*,"(A10,1F8.3)") "Im(pec) = ", aimag(pec)
+  write(*,"(A10,1F10.5)") "Re(pec) = ", real(pec) ! Escrita formatada
+  write(*,"(A10,2F8.3)") "Im(pec) = ", aimag(pec), 2*aimag(pec)
 
 end subroutine
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 real function produto_escalar(d, A, B)
   implicit none
   integer :: d, j
@@ -42,7 +42,7 @@ real function produto_escalar(d, A, B)
   end do
 
 end function
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 subroutine produto_escalar_c(d, A, B, pe)
   implicit none
   integer :: d, j
@@ -54,7 +54,7 @@ subroutine produto_escalar_c(d, A, B, pe)
   end do
 
 end subroutine
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 subroutine array2D()
   implicit none
   integer, parameter :: d = 2
@@ -80,7 +80,7 @@ subroutine array2D()
   write(*,*)'<psi|sigma|psi> = ', sanduiche(d, psi, sigma)
 
 end subroutine
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 subroutine produto_matricial(d, A, B, AB)
   implicit none
   integer :: d, j, k, l
@@ -96,7 +96,7 @@ subroutine produto_matricial(d, A, B, AB)
   end do
 
 end subroutine
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 subroutine display_array(A, nl, nc)
   implicit none
   real :: A(nl,nc)
@@ -107,7 +107,7 @@ subroutine display_array(A, nl, nc)
   enddo
 
 end subroutine
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 real function trace(A, d)
   implicit none
   integer :: d, j
@@ -119,8 +119,8 @@ real function trace(A, d)
   enddo
 
 end function
-!------------------------------------------------------------------------------------------------------------------------------------
-complex function sanduiche(d, psi, A)
+!-------------------------------------------------------------------------------
+complex function sanduiche(d, psi, A) !<psi|A|psi>
   implicit none
   integer :: d, j, k
   complex :: A(d,d), psi(d)
@@ -133,4 +133,4 @@ complex function sanduiche(d, psi, A)
   enddo
 
 end function
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
