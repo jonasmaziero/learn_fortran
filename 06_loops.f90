@@ -11,10 +11,11 @@ program loops
   !do j = 0, 31
   !  write(*,*) j,"! = ",fatorial(j)
   !enddo
-  write(*,*)"Sequência de Fibonacci"
-  do k = 0, 10
-    write(*,*) fibonacci(k)
-  enddo
+  !write(*,*)"Sequência de Fibonacci"
+  !do k = 0, 10
+  !  write(*,*) fibonacci(k)
+  !enddo
+  call primos(50)
 
 end program
 !-------------------------------------------------------------------------------
@@ -146,8 +147,10 @@ subroutine primos(N)  ! números divisiveis somente por 1 e por ele mesmo
   if (N == 2) then
     write(*,*) N
   else if (N > 2) then
-    doj: do j = 2, N
-      dok: do k = 2, ((j/2)+1)
+    write(*,*) 2
+    if(N >= 3) write(*,*) 3
+    doj: do j = 4, N
+      dok: do k = 2, j/2
         if (mod(j,k) == 0) cycle doj
       enddo dok
       write(*,*) j

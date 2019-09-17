@@ -1,4 +1,4 @@
-! comentários (não são considerados pelo compilador)
+! use ! para comentários (não são considerados pelo compilador)
 
 program hello ! marca o início do programa principal
 
@@ -11,13 +11,11 @@ end program  ! marca o final do programa principal
 ! cd nome_da_pasta
 ! pra ir para o diretorio onde está seu programa. Então o compile com:
 ! gfortran nome.f90
-
 ! E o execute com:
 ! ./a.out
 
 ! Se quiser criar uma arquivo executável, um objeto, compile usando:
 ! gfortran nome.f90 -o name
-
 ! Execute com:
 ! ./name
 

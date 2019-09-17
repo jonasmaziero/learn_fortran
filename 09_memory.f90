@@ -1,31 +1,41 @@
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 program mem ! Alocação dinâmica de memória
   call memalloc()
 end program mem
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 subroutine memalloc()
   implicit none
   integer :: d
-  integer, allocatable :: vec(:)
   real, allocatable :: x
+  integer, allocatable :: vec(:)
+  complex, allocatable :: A(:,:)
 
   allocate(x)
   x = 1.0
-  write(*,*) x
+  write(*,*) 'x = ',x
   deallocate(x)
   !stop
 
-  d = 2
+  !d = 2
+  write(*,*) 'Entre com a dimensão do vetor'
+  read(*,*) d
   allocate(vec(d))
-  vec = (/1,2/)
-  write(*,*) vec
+  !vec = (/1,2/)
+  write(*,*) 'Entre com o vetor'
+  read(*,*) vec
+  write(*,*) 'vec = ',vec
   deallocate(vec)
 
   d = 4
   allocate(vec(d))
   vec = (/1,2,3,4/)
-  write(*,*) vec
+  write(*,*) 'vec = ',vec
   deallocate(vec)
 
+  allocate(A(2,2))
+  A(1,1) = 0; A(1,2) = -(0,1); A(2,1) = conjg(A(1,2)); A(2,2) = A(1,1)
+  write(*,*) 'A = ',A
+  deallocate(A)
+
 end subroutine memalloc
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
