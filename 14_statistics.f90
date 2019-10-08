@@ -1,9 +1,9 @@
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 program estatistica
   call statistics()
   !write(*,*) ;  call composto()
 end program
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 subroutine statistics(dp)
   implicit none
   integer, parameter :: d = 6  ! constantes em Fortran
@@ -19,23 +19,7 @@ subroutine statistics(dp)
   write(*,*) "Mediana do dado = ", mediana(d,dp,va)
 
 end subroutine
-!------------------------------------------------------------------------------------------------------------------------------------
-subroutine composto()
-  implicit none
-  integer, parameter :: Na = 2, Nb = 2
-  real :: A(Na), B(Nb), pab(Na,Nb), covariancia, cov
-
-  A = (/ -1, 1 /)!;  write(*,*) A
-  B = (/ -1, 1 /)!;  write(*,*) B
-  pab = reshape( (/ (/0.5, 0.0/), &  ! O símbolo & é para continuar um mesmo comando em várias linhas
-                    (/0.0, 0.5/) /), (/2,2/), order=(/2,1/) )  ! order faz 'linha primeiro'
-  write(*,*) 'Distribuição conjunta de probabilidades'
-  call display_array(pab, Na, Nb)
-  cov = covariancia(Na, Nb, pab, A, B)
-  write(*,*) 'Cov(A,B) = ', cov
-
-end subroutine
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 real function normalizacao(d, dp)
   implicit none
   integer :: d, j
@@ -47,7 +31,7 @@ real function normalizacao(d, dp)
   end do
 
 end function
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 real function media(d, dp, va)
   implicit none
   integer :: d, j
@@ -59,7 +43,7 @@ real function media(d, dp, va)
   end do
 
 end function
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 real function media2(d, dp, va)
   implicit none
   integer :: d, j
@@ -71,7 +55,7 @@ real function media2(d, dp, va)
   end do
 
 end function
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 real function desvio_padrao(d, dp, va)
   implicit none
   integer :: d, j
@@ -80,7 +64,7 @@ real function desvio_padrao(d, dp, va)
   desvio_padrao = sqrt(media2(d, dp, va) - (media(d, dp, va))**2)
 
 end function
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 function mediana(d,dp,va)
   implicit none
   real :: mediana
@@ -97,7 +81,23 @@ function mediana(d,dp,va)
   enddo
 
 end function
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
+subroutine composto() ! para testes
+  implicit none
+  integer, parameter :: Na = 2, Nb = 2
+  real :: A(Na), B(Nb), pab(Na,Nb), covariancia, cov
+
+  A = (/ -1, 1 /)!;  write(*,*) A
+  B = (/ -1, 1 /)!;  write(*,*) B
+  pab = reshape( (/ (/0.5, 0.0/), &  ! O símbolo & é para continuar um mesmo comando em várias linhas
+                    (/0.0, 0.5/) /), (/2,2/), order=(/2,1/) )  ! order faz 'linha primeiro'
+  write(*,*) 'Distribuição conjunta de probabilidades'
+  call display_array(pab, Na, Nb)
+  cov = covariancia(Na, Nb, pab, A, B)
+  write(*,*) 'Cov(A,B) = ', cov
+
+end subroutine
+!-------------------------------------------------------------------------------
 real function covariancia(Na, Nb, pab, A, B)
   implicit none
   integer :: Na, Nb, j, k
@@ -111,7 +111,7 @@ real function covariancia(Na, Nb, pab, A, B)
   covariancia = ABm - Am*Bm
 
 end function
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 real function media_AB(Na, Nb, pab, A, B)
   implicit none
   integer :: Na, Nb, j, k
@@ -125,7 +125,7 @@ real function media_AB(Na, Nb, pab, A, B)
   enddo
 
 end function
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 subroutine dpa(Na, Nb, pab, pa)
   implicit none
   integer :: Na, Nb, j, k
@@ -139,7 +139,7 @@ subroutine dpa(Na, Nb, pab, pa)
   enddo
 
 end subroutine
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 subroutine dpb(Na, Nb, pab, pb)
   implicit none
   integer :: Na, Nb, j, k
@@ -153,7 +153,7 @@ subroutine dpb(Na, Nb, pab, pb)
   enddo
 
 end subroutine
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
 subroutine display_array(A, nl, nc)
   implicit none
   real :: A(nl,nc)
@@ -164,4 +164,4 @@ subroutine display_array(A, nl, nc)
   enddo
 
 end subroutine
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------

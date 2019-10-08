@@ -56,7 +56,7 @@ real function norma(d,v)
   enddo
   norma = sqrt(norma)
 
-  ! Outra maneira (mais simples)
+  ! Outra maneira (mais simples) de obter a norma
   !norma = sqrt(produto_escalar(d, v, v))
 
 end function
@@ -98,11 +98,11 @@ subroutine array2D()
 
   AB = 0 ! maneira simples de inicializar um array, com todos elementos iguais
   write(*,*)'AB = ', AB
-  call produto_matricial(d, A, B, AB)
+  call produto_matricial(d, d, d, A, B, AB)
   write(*,*)'AB = ', AB
   write(*,*)'AB = '
   call display_array(AB, d, d)
-  stop
+  !stop
 
   psi(1) = 1.0/sqrt(2.0);  psi(2) = psi(1);  write(*,*)'psi = ', psi
   sigma = reshape((/(/0,1/),(/1,0/)/), (/2,2/), order=(/2,1/))
@@ -135,28 +135,28 @@ real function trace(d,A)
 
 end function
 !-------------------------------------------------------------------------------
-subroutine soma_matricial(d,X,Y,XmY)
+subroutine soma_matricial(m,n,X,Y,XmY)
   implicit none
-  integer :: d,j,k
-  real :: X(d,d), Y(d,d), XmY(d,d)
+  integer :: m,n,j,k
+  real :: X(m,n), Y(m,n), XmY(m,n)
 
-  do j = 1, d
-    do k = 1, d
+  do j = 1, m
+    do k = 1, n
       XmY(j,k) = X(j,k) + Y(j,k)
     enddo
   enddo
 
 end subroutine
 !-------------------------------------------------------------------------------
-subroutine produto_matricial(d, A, B, AB)
+subroutine produto_matricial(p,q,r, A, B, AB)
   implicit none
-  integer :: d ,j, k, l
-  real :: A(d,d), B(d,d), AB(d,d)
+  integer :: p,q,r ,j, k, l
+  real :: A(p,q), B(q,r), AB(p,r)
 
   AB = 0
-  do j = 1, d
-    do k = 1, d
-      do l = 1, d
+  do j = 1, p
+    do k = 1, r
+      do l = 1, q
         AB(j,k) = AB(j,k) + A(j,l)*B(l,k)
       end do
     end do
