@@ -1,33 +1,22 @@
 !-------------------------------------------------------------------------------
-program rand
-  call random_tests()
-end program
+!program rand
+!  call random_tests()
+!end program
 !-------------------------------------------------------------------------------
 subroutine random_tests()
   implicit none
   integer, parameter :: d = 10
-  real(8) :: rn(d)
+  real(8) :: rn(d)  ! rn = número aleatório (array 1D)
   integer :: rni(d), minn, maxx
   integer :: perm(d)
   real :: dp(2), dpd(6)
 
-  !call init_gnu() ! initicializa o gerador de números aleatórios
-  call rand_real(d,rn);  write(*,*) rn
-  minn = 1; maxx = d; call rand_int(minn, maxx, d, rni); write(*,*) rni
+  call init_gnu() ! initicializa o gerador de números aleatórios
+  !call random_number(rn);  write(*,'(10F10.5)') rn
+  !minn = 1; maxx = d; call rand_int(minn, maxx, d, rni); write(*,*) rni
   !call permutacao(d,perm); write(*,*) perm
   !call simula_moeda(10**2,dp); write(*,*) dp
-  !call simula_dado(10**2,dpd); write(*,*) dpd
-
-end subroutine
-!-------------------------------------------------------------------------------
-subroutine rand_real(d, rn) ! Calls the Gnu "standard" random number generator.
-  !See https://gcc.gnu.org/onlinedocs/gfortran/RANDOM_005fNUMBER.html
-  ! The runtime-library implements George Marsaglia's KISS (Keep It Simple Stupid) random number generator.
-  implicit none
-  integer :: d  ! Dimension of the vector of random numbers
-  real(8) :: rn(1:d) ! Vector whose components are random numbers uniformly distributed in [0,1)
-
-  call random_number(rn) ! retorn números em [0,1)
+  call simula_dado(10**6,dpd); write(*,*) dpd
 
 end subroutine
 !-------------------------------------------------------------------------------
@@ -37,7 +26,7 @@ subroutine rand_int(minn,maxx,d,rn)
   integer :: rn(d)
   real(8) :: rrn(d)
 
-  call rand_real(d, rrn)
+  call random_number(rrn)
   do j = 1, d
     rn(j) = minn + floor((maxx+1-minn)*rrn(j)) ! floor(x) retorna o maior inteiro <= x
   enddo
@@ -49,11 +38,11 @@ subroutine permutacao(d,perm) ! retorna uma pertmutação de (1,2,3,...,d)
   integer :: d, j, k, rn(1)
   integer :: perm(d)
 
-  perm = 0
   call rand_int(1,d,1,rn);  perm(1) = rn(1)
   j = 1
   do1: do
-    call rand_int(1,d,1,rn)
+    call rand_int(1,d,1,rn);
+    write(*,*) j+1, rn(1)
     do2: do k = 1, j
       if (rn(1) == perm(k)) cycle do1
     enddo do2
@@ -71,12 +60,12 @@ subroutine simula_moeda(N,dp)
   real :: dp(2)
   integer :: j
 
-  call rand_real(N, rn)
+  call random_number(rn)
   dp = 0.0
   do j = 1, N
-    if (rn(j) < 0.5) then
+    if (rn(j) >= 0.0 .and. rn(j) < 0.5) then
       dp(1) = dp(1) + 1
-    else
+    else if (rn(j) >= 0.5 .and. rn(j) <= 1.0) then
       dp(2) = dp(2) + 1
     endif
   enddo
@@ -92,7 +81,7 @@ subroutine simula_dado(N,dp)
   integer :: j, k
 
   fa = 1.0/6.0
-  call rand_real(N, rn)
+  call random_number(rn)
   dp = 0.0
   do j = 1, N
     do k = 1, 6

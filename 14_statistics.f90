@@ -1,12 +1,14 @@
 !-------------------------------------------------------------------------------
+include '13_random.f90'
+!-------------------------------------------------------------------------------
 program estatistica
   call statistics()
   !write(*,*) ;  call composto()
 end program
 !-------------------------------------------------------------------------------
-subroutine statistics(dp)
+subroutine statistics()
   implicit none
-  integer, parameter :: d = 6  ! constantes em Fortran
+  integer, parameter :: d = 6
   real :: dp(d), normalizacao, va(d), media, media2, desvio_padrao, mediana
 
   !dp(1) = 1.0/6.0;  dp(2) = dp(1); dp(3) = dp(1);  dp(4) = dp(1); dp(5) = dp(1);  dp(6) = dp(1)  ! dado perfeito, teórico
