@@ -1,18 +1,21 @@
 !-----------------------------------------------------------------------------------------------------------------------------------
-program integrais ! gfortran 09modules.f90 09derivada.f90 11integrals.f90
+program integrais ! gfortran 16_modules.o 17_integrals.f90
   call integral_tests()
 end program
 !-----------------------------------------------------------------------------------------------------------------------------------
 subroutine integral_tests()
   use cte  ! para usar o módulo cte
+  ! Antes compile com: gfortran -c 16_modules.f90
+  ! Depois, compile com: gfortran 17_integrals.f90 16_modules.o
+  ! name.o são 'objetos', já compilados (em assembly)
   implicit none
   real(8) :: integral, x0, xN, delta, dx
-  real(8), external :: sen, coss
+  real(8), external :: funcao
   integer :: N
   open(unit=13,file="integral.dat",status="unknown")
 
   !write(*,*) pi
-  N = 10 ! delta = (xN-x0)/N=(N*delta-)
+  N = 50 ! delta = (xN-x0)/N=(N*delta-)
   x0 = 0.d0!;  xN = 2.d0*pi
   dx = pi/dble(N)
   xN = x0
@@ -20,7 +23,7 @@ subroutine integral_tests()
     xN = xN + dx
     !delta = (xN-x0)/dble(N)!=(x0*(N-1))/dble(N)
     !write(13,*) xN, 1.d0-integral(sen,x0,N,delta), dcos(xN)
-    write(13,*) xN, integral(coss,x0,xN,N), dsin(xN)
+    write(13,*) xN, integral(funcao,x0,xN,N), dsin(xN)
     if (xN > 4.d0*pi) exit
   enddo
   close(13)
@@ -55,9 +58,9 @@ function integral(f,x0,xN,N)
 
 end function
 !-----------------------------------------------------------------------------------------------------------------------------------
-function coss(x)
+function funcao(x)
   implicit none
-  real(8) :: coss, x
-  coss = dcos(x)
+  real(8) :: funcao, x
+  funcao = dcos(x)
 end function
 !-----------------------------------------------------------------------------------------------------------------------------------

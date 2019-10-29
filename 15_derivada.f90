@@ -1,31 +1,26 @@
 !-------------------------------------------------------------------------------
 include '08_fatorial.f90'
 !-------------------------------------------------------------------------------
-program derivada  ! gfortran 09derivada.f90 04fatorial.f90
+program derivada
   call derivadas()
-end program
+end
 !-------------------------------------------------------------------------------
 subroutine derivadas()
   implicit none
   real(8), parameter :: pi = 4*atan(1.0) ! dupla precisão (15 casas após a vírgula)
   real(8) :: x, dx, xmax, del!, delm1
-  real(8), external :: sen
+  real(8), external :: funcao
   real(8) :: der1, der2, der3, der4, dern, derr, diffn
   open(unit=13,file="derivada.dat",status="unknown")
 
-  del = 1.d-3
-  !delm1 = 10**4
+  del = 1.d-3 ! delta_x para a derivada
+  !delm1 = 1.d4
   xmax = 2.d0*pi
   dx = pi/40.d0
   x = -dx
   do
     x = x + dx
-    write(13,*) x, sen(x),der1(sen,x,del),dcos(x),der2(sen,x,del),-dsin(x),der3(sen,x,del),-dcos(x),der4(sen,x,del)
-    ! exemplo: dsin é a versão dupla precisão da funcão seno
-    !write(13,*) x, sen(x),dern(sen,x,del,1),dcos(x),dern(sen,x,del,2),-dsin(x),dern(sen,x,del,3),-dcos(x),dern(sen,x,del,4)
-    !write(13,*) x, sen(x),dern(sen,x,delm1,1),dcos(x),dern(sen,x,delm1,2),-dsin(x),dern(sen,x,delm1,3),-dcos(x),dern(sen,x,delm1,4)
-    !write(13,*) x,sen(x),derr(sen,x,del,1),dcos(x),derr(sen,x,del,2),-dsin(x),derr(sen,x,del,3),-dcos(x),derr(sen,x,del,4)
-    !write(13,*) x,sen(x),diffn(sen,x,del,1),dcos(x),diffn(sen,x,del,2),-dsin(x),diffn(sen,x,del,3),-dcos(x),diffn(sen,x,del,4)
+    write(13,*) x, funcao(x),der1(funcao,x,del),dcos(x),der2(funcao,x,del),-dsin(x),der3(funcao,x,del),-dcos(x),der4(funcao,x,del)
     if (x > xmax) exit
   enddo
   close(13)
@@ -46,14 +41,14 @@ subroutine derivadas()
 
 end subroutine
 !-------------------------------------------------------------------------------
-function sen(x)
+function funcao(x)
   implicit none
-  real(8) :: sen
+  real(8) :: funcao
   real(8) :: x
 
-  sen = dsin(x)
+  funcao = dsin(x)
 
-end function sen
+end function
 !------------------------------------------------------------------------------------------------------------------------------------
 function der1(f,x,h)
   implicit none
@@ -94,7 +89,7 @@ function der4(f,x,h)
   real(8) :: der4, der3, x, h
   real(8), external :: f
 
-  !der3 = (f(x+4.d0*h)-4.d0*f(x+3.d0*h)+6.d0*f(x+2.d0*h)-4.d0*f(x+h)+f(x))/(h**4.d0)
+  !der4 = (f(x+4.d0*h)-4.d0*f(x+3.d0*h)+6.d0*f(x+2.d0*h)-4.d0*f(x+h)+f(x))/(h**4.d0)
   der4 = (der3(f,x+h,h)-der3(f,x,h))/h
 
 end function der4

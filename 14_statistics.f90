@@ -2,8 +2,8 @@
 include '13_random.f90'
 !-------------------------------------------------------------------------------
 program estatistica
-  call statistics()
-  !write(*,*) ;  call composto()
+  !call statistics()
+  call composto()
 end program
 !-------------------------------------------------------------------------------
 subroutine statistics()
@@ -11,8 +11,9 @@ subroutine statistics()
   integer, parameter :: d = 6
   real :: dp(d), normalizacao, va(d), media, media2, desvio_padrao, mediana
 
+  !dp = (/ 1.0/d, 1.0/d, 1.0/d, 1.0/d, 1.0/d, 1.0/d /)
   !dp(1) = 1.0/6.0;  dp(2) = dp(1); dp(3) = dp(1);  dp(4) = dp(1); dp(5) = dp(1);  dp(6) = dp(1)  ! dado perfeito, teórico
-  call init_gnu();  call simula_dado(10**3,dp);  write(*,*) "dp = ", dp  ! dado real, simulado
+  call init_gnu();  call simula_dado(10**6,dp);  write(*,*) "dp = ", dp  ! dado real, simulado
   va = (/ 1, 2, 3, 4, 5, 6 /)  ! valores possíveis da variável aleatória
   write(*,*) "Soma das probabilidades = ", normalizacao(d, dp)
   write(*,*) "Média do dado = ", media(d, dp, va)
@@ -29,6 +30,7 @@ real function normalizacao(d, dp)
 
   normalizacao = 0
   do j = 1, d
+    if (dp(j) < 0.0) write(*,*)'prob. negativa'
     normalizacao = normalizacao + dp(j)
   end do
 
@@ -39,7 +41,7 @@ real function media(d, dp, va)
   integer :: d, j
   real :: dp(d), va(d)
 
-  media = 0
+  media = 0.0
   do j = 1, d
     media = media + va(j)*dp(j)
   end do
