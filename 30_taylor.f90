@@ -40,7 +40,11 @@ subroutine subtaylor()
   call system("open -a skim taylor.eps&")
 
 end subroutine subtaylor
-!------------------------------------------------------------------------------------------------------------------------------------
+!-------------------------------------------------------------------------------
+function sen(x)
+implicit none
+real(8) :: x, sen
+!-------------------------------------------------------------------------------
 function taylor(f,x,x0,order,h)
   implicit none
   real(8) :: taylor, x, x0, h, diffn
