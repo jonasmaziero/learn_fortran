@@ -48,7 +48,7 @@ function integral(f,x0,xN,N)
   delta = (xN-x0)/dble(N)
   integral = 0.d0
   do j = 1, N
-    integral = integral + f(x0+j*delta)  ! retangulo (definição)
+    integral = integral + f(x0+(j-1)*delta)  ! retangulo (definição)
     !integral = integral + f((x0+(j-1)*delta+x0+j*delta)/2) ! com ponto médio
     !integral = integral + (f(x0+(j-1)*delta)+f(x0+j*delta))/2.d0 ! trapezio
     !integral = integral + (f(x0+(j-1)*delta)+4.d0*f((2.d0*x0+delta*(2*j-1))/2.d0)+f(x0+j*delta))/6.d0  ! simpson

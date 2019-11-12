@@ -11,7 +11,7 @@ subroutine integral_tests()
   integer :: Nx, Ny
   open(unit=13,file="integral.dat",status="unknown")
 
-  Nx = 300; Ny = 300; xi = 0.d0; xf = 4*pi; yi = 0.d0; yf = pi
+  Nx = 100; Ny = 100; xi = 0.d0; xf = 4*pi; yi = 0.d0; yf = pi
   delta = 0.2
   x = xi
   dox: do
@@ -22,9 +22,10 @@ subroutine integral_tests()
       y = y + delta
       if (y > yf) exit
       int2d = integral(funcao,xi,x,Nx,yi,y,Ny)
-      ff = dsin(x)*dsin(y)
+      !ff = dsin(x)*dsin(y)
+      ff = dsin(x)*(1.d0-dcos(y))
       erro = abs(ff-int2d)
-      if (erro > 2.d-2) write(*,*) erro
+      if (erro > 1.d-3) write(*,*) erro
       write(13,*) x, y, int2d, ff
     enddo doy
   enddo dox
@@ -65,7 +66,8 @@ function funcao(x,y)
   implicit none
   real(8) :: funcao, x, y
 
-  funcao = dcos(x)*dcos(y)
+  !funcao = dcos(x)*dcos(y)
+  funcao = dcos(x)*dsin(y)
 
 end function
 !-------------------------------------------------------------------------------
