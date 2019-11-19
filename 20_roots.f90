@@ -1,3 +1,4 @@
+include "15_derivada.f90"
 !-------------------------------------------------------------------------------
 program roots !gfortran 20_roots.f90 19_modf.o
   call roots_test()
@@ -13,11 +14,12 @@ subroutine roots_test()
   integer :: Er ! diz se há (=1) ou não (=0) raíz em um determinado intervalo
   open(unit=13,file="roots.dat",status="unknown")
 
-  xi = -3.d0;  xf = 3.d0 ! intervalo para a procura da raíz
+  xi = -3.d0;  xf = 2.5d0 ! intervalo para a procura da raíz
   dx = 1.d-2;  x = xi-dx
   do
     x = x + dx
     write(13,*) x, func(x)
+    !write(13,*) x, func2(x)	
     if ( x > xf ) exit
   end do
   close(13)
@@ -25,24 +27,25 @@ subroutine roots_test()
   write(14,*)"reset"
   write(14,*)"set terminal postscript color enhanced 'Helvetica' 24"
   write(14,*)"set output 'roots.eps'"
-  write(14,*)"plot 'roots.dat' u 1:2 w lp, 0"
+  write(14,*)"plot 'roots.dat' u 1:2 w l lw 2, 0"
   close(14)
   call system("gnuplot roots.gnu")
   !call system("evince roots.eps&")
   call system("open -a skim roots.eps&")
-
+ ! stop 
+!________________________________________
   write(*,*) "Obtendo uma ou nenhuma raiz"
   xe = xi;  xd = xf ! intervalor no qual procuraremos as raízes
-  err = 1.d-5;  Nm = 10**3  ! erro máximo e no. máximo de iterações
-  call bissection(func, xe, xd, err, Nm, xrb, Er)
-  write(*,*) "xrb = ", xrb, "f(xrb) = ", func(xrb)
-  xk = 1.5d0
+  err = 1.d-5;  Nm = 10**2  ! erro máximo e no. máximo de iterações
+  !call bissection(func, xe, xd, err, Nm, xrb, Er)
+  !write(*,*) "xrb = ", xrb, "f(xrb) = ", func(xrb)
+  xk = -1.5d0
   call newton(func, xk, err, Nm, dx, xrn)
   write(*,*) "xrn = ", xrn, "f(xrn) = ", func(xrn)
   !stop
 !___________________________________
   write(*,*) "Obtendo várias raízes"
-  del = 1.d-2
+  del = 1.d-1
   xe = xi - del
   do
     xe = xe + del
@@ -75,13 +78,15 @@ subroutine bissection(f, xe, xd, err, Nm, xr, Er)
       if ( dx < err ) exit do1 ! primeiro critério de parada
       xm = (xe+xd)/2.d0
       fxm = f(xm)
-      if2: if ( fxm == 0.d0 ) then ! segundo critério de parada
+      if2: if ( dabs(fxm) < 1.d-5 ) then ! segundo critério de parada
+        ! dabs é o valor absoluto com dupla precisão
         exit do1
       else if ( f(xe)*f(xm) < 0.d0 ) then
         xd = xm
       else
         xe = xm
       end if if2
+      !write(*,*) 'xe = ', xe, 'xd = ', xd
       Ni = Ni + 1
       if (Ni > Nm) exit do1 ! terceiro critério de parada
     end do do1

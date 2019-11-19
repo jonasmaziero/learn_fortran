@@ -7,12 +7,18 @@
 module modf
   implicit none
 
-contains
+contains ! tem que ter essa palavra antes dos subprogramas
 
   function func(x)
     implicit none
     real(8) :: x, func
       func = x**3.d0 + 3.d0*x**2.d0 - x - 4.d0
+  end function
+
+  function func2(x)
+    implicit none
+    real(8) :: x, func2
+	func2 = x - dexp(-x)
   end function
 
 end module
