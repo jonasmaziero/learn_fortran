@@ -2,7 +2,6 @@ import numpy as np
 from matplotlib import pyplot as plt
 import scipy.interpolate
 N = 1000  # number of points for plotting/interpolation
-# path = "/home/jonasmaziero/Dropbox/GitHub/learn_fortran"
 x, y, z = np.genfromtxt(r'opt_f.dat', unpack=True)
 xll = x.min()
 xul = x.max()
@@ -21,5 +20,5 @@ plt.ylabel(r'$y$')
 plt.colorbar()
 x, y = np.genfromtxt(r'opt_x.dat', unpack=True)
 plt.plot(x, y, color='magenta')
-# plt.savefig('/path/opt.eps', format='eps', dpi=100)
-plt.show()
+plt.savefig('opt.eps', format='eps', dpi=100)
+#plt.show()

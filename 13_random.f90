@@ -1,7 +1,7 @@
 !-------------------------------------------------------------------------------
-!program rand
-!  call random_tests()
-!end program
+program rand
+  call random_tests()
+end program
 !-------------------------------------------------------------------------------
 subroutine random_tests()
   implicit none
@@ -16,7 +16,7 @@ subroutine random_tests()
   !minn = 1; maxx = d; call rand_int(minn, maxx, d, rni); write(*,*) rni
   !call permutacao(d,perm); write(*,*) perm
   !call simula_moeda(10**2,dp); write(*,*) dp
-  call simula_dado(10**6,dpd); write(*,*) dpd
+  call simula_dado(10**2,dpd); write(*,*) dpd
 
 end subroutine
 !-------------------------------------------------------------------------------
@@ -89,8 +89,8 @@ subroutine simula_dado(N,dp)
     enddo
   enddo
   dp = dp/dble(N)
-  !open(unit=13,file='dado.dat',status='unknown')
-  !do j = 1, 6; write(13,*) j, dp(j);  enddo
+  open(unit=13,file='dado.dat',status='unknown')
+  do j = 1, 6; write(13,*) j, dp(j);  enddo
 
 end subroutine
 !-------------------------------------------------------------------------------

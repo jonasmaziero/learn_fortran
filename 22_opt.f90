@@ -6,18 +6,17 @@ end
 !-----------------------------------------------------------------------------------------
 subroutine test_opt()
   implicit none
-  integer, parameter :: d = 2
-  real(8), external :: ff
-  real(8) :: xi(d), xf(d)
-  integer, parameter :: Nmax = 100
-  real(8), parameter :: del = 0.001
-  real(8), parameter :: err = 0.00001
+  integer, parameter :: d = 2 ! número de variáveis
+  real(8), external :: ff ! funções cujo mínimo ou máximo queremos calcular
+  real(8) :: xi(d), xf(d) ! 
+  integer, parameter :: Nmax = 40 ! número máximo de iterações do gradiente descendente
+  real(8), parameter :: h = 0.001
+  real(8), parameter :: err = 0.00001 ! precisão (menor norma do gradiente)
   real(8) :: xmin(d), xmax(d), dx(d), x(d)
   open(unit=13,file='opt_f.dat',status='unknown')
 
+  xmin(1) = -20; xmax(1) = 20; xmin(2) = -20; xmax(2) = 20
   dx(1) = 0.05;  dx(2) = 0.05
-  xmin(1) = -10;  xmin(2) = -10
-  xmax(1) = 10;  xmax(2) = 10
   x(1) = xmin(1) - dx(1)
   do1: do
     x(1) = x(1) + dx(1)
@@ -31,49 +30,67 @@ subroutine test_opt()
   end do do1
   close(13)
 
-  xi(1) = -9; xi(2) = 9
-  call grad_desc(ff,d,xi,err,Nmax,del,xf)
+  xi(1) = -15; xi(2) = -10 ! ponto inicial para o GD
+  call grad_desc(ff, d, xi, err, Nmax, h, xf)
   write(*,*) 'xf = ', xf, ', f(d,xf) =', ff(d,xf)
-  ! os gráficos são feitos com o Jupyter: 
-  ! https://github.com/jonasmaziero/jupyterQ, no arquivo opt.ipynb
-  call system("python3 23_opt.py&")
+  call system("python3 23_opt.py &")
+  call system("open -a skim opt.eps&")
 
 end subroutine
 !-----------------------------------------------------------------------------------------
-subroutine grad_desc(f,d,xjm1,err,Nmax,del,xj)  ! algorithm from wikipedia
+subroutine grad_desc(f, d, xjm1, err, Nmax, h, xj) ! GD
+  ! https://en.wikipedia.org/wiki/Gradient_descent
   implicit none
   real(8), external :: f
   integer :: d  ! número de parâmetros
   real(8) :: err ! precisão (menor norma do gradiente)
-  real(8) :: del ! o delta para as derivadas
+  real(8) :: h ! o delta para as derivadas
   real(8) :: grad(d)
-  integer :: Nmax, Nint ! número máximo e atual de interações
+  integer :: Nmax, Nit ! número máximo e atual de iterações
   real(8) :: norm, inner, gj
   real(8) :: dx(d), xj(d), xjm1(d), dg(d), gradj(d), gradjm1(d)
-  open(unit=13,file='opt_x.dat',status='unknown')
+  ! armazenamos os pontos passados durante a decida
+  open(unit=13, file='opt_x.dat', status='unknown')
 
-  call gradiente(f,d,xjm1,del,gradjm1)
-  xj = xjm1 - 0.00001*gradjm1
+  call gradiente(f, d, xjm1, h, gradjm1)
+  xj = xjm1 - 0.00001*gradjm1 ! usamos uma valor inicial pequeno para o passo
   write(13,*) xj(1), xj(2)
-  call gradiente(f,d,xj,del,gradj)
-  dx = xj - xjm1;  dg = gradj - gradjm1
-  gj = inner(d,dx,dg)/(norm(d,dg)**2)
-  Nint = 0
+  call gradiente(f, d, xj, h, gradj)
+  dx = xj - xjm1
+  dg = gradj - gradjm1
+  gj = inner(d, dx, dg)/(norm(d, dg)**2) ! tamanho do passo
+  Nit = 0
   do
-    Nint = Nint + 1
-    xjm1 = xj;  gradjm1 = gradj
-    xj = xjm1 - gj*gradjm1
+    Nit = Nit + 1
+    xjm1 = xj
+    gradjm1 = gradj
+    xj = xjm1 - gj*gradjm1 ! novo ponto
     write(13,*) xj(1), xj(2)
-    call gradiente(f,d,xj,del,gradj)
-    dx = xj - xjm1;  dg = gradj - gradjm1
-    gj = inner(d,dx,dg)/(norm(d,dg)**2)
-    write(*,*) 'Nint = ', Nint, ', xj = ', xj
-    if (norm(d,gradj) < err .or. Nint > Nmax) exit
+    call gradiente(f, d, xj, h, gradj)
+    dx = xj - xjm1
+    dg = gradj - gradjm1
+    gj = inner(d, dx, dg)/(norm(d, dg)**2) ! passo
+    write(*,*) 'Nit = ', Nit, ', xj = ', xj
+    if (norm(d, gradj) < err .or. Nit > Nmax) exit
   end do
 
 end subroutine
 !-----------------------------------------------------------------------------------------
-function inner(d,x,y)
+subroutine gradiente(f, d, x, h, grad)
+  ! retorna o gradiente da função f no ponto x
+  implicit none
+  real(8), external :: f
+  integer :: d, j
+  real(8) :: x(d), grad(d), h, der_par
+
+  do j = 1, d
+    grad(j) = der_par(f, d, x, j, h)
+  end do
+
+end subroutine
+!-----------------------------------------------------------------------------------------
+function inner(d, x, y)
+  ! retorna o produto escalar entre os vetores x e y
   implicit none
   real(8) :: inner
   integer :: d, j
@@ -86,7 +103,8 @@ function inner(d,x,y)
 
 end function
 !-----------------------------------------------------------------------------------------
-function norm(d,x)
+function norm(d, x)
+  ! retorna a norma do vetor x
   implicit none
   real(8) :: norm, inner
   integer :: d
@@ -95,16 +113,4 @@ function norm(d,x)
   norm = dsqrt(inner(d,x,x))
 
 end function
-!-----------------------------------------------------------------------------------------
-subroutine gradiente(f,d,x,del,grad)
-  implicit none
-  real(8), external :: f
-  integer :: d, j
-  real(8) :: x(d), grad(d), del, der_par
-
-  do j = 1, d
-    grad(j) = der_par(f,d,x,j,del)
-  end do
-
-end subroutine
 !-----------------------------------------------------------------------------------------

@@ -5,10 +5,11 @@
 !-----------------------------------------------------------------------------------------
 subroutine test_der_par()
   implicit none
-  real(8), external :: ff
-  integer, parameter :: d = 2
-  real(8) :: x(d), xmin(d), xmax(d), dx(d)
-  real(8) :: h, der_par, der
+  real(8), external :: ff ! função que vamos derivar
+  integer, parameter :: d = 2 ! número de variáveis
+  real(8) :: x(d), xmin(d), xmax(d), dx(d) ! vetores para as coordenadas
+  real(8) :: h ! delta para as derivadas
+  real(8) :: der_par, der
   open(unit=13,file="der_par.dat",status='unknown')
 
   xmin(1) = -1; xmax(1) = 1; xmin(2) = -1; xmax(2) = 1
@@ -46,13 +47,13 @@ end subroutine
 !-----------------------------------------------------------------------------------------
 function der_par(f,d,x,j,h)  ! derivada parcial em relação a x_j
   implicit none
-  real(8) :: der_par
-  real(8), external :: f
+  real(8) :: der_par ! derivada da função f no ponto x, em relação a x_j
+  real(8), external :: f ! função a ser derivada
   integer :: d ! número de componentes do vetor x
-  real(8) :: x(d)
+  real(8) :: x(d) ! ponto no qual calculamos a derivada
   integer :: j ! componente na qual aplicamos a derivada
   real(8) :: xpd(d) ! variável auxiliar
-  real(8) :: h ! dx para a derivada
+  real(8) :: h ! delta para a derivada
 
   xpd = x
   xpd(j) = x(j) + h
@@ -67,6 +68,8 @@ function ff(d,x)
   real(8) :: x(d)
 
   ff = 2*x(1)**2 + x(1) + 3*x(2)**2
+  !ff = (1.d0-x(1))**2 + 1.d2*(x(2)-x(1)**2)**2
+  !ff = dsin((x(1)**2)/2.d0 - (x(2)**2)/4.d0 + 3.d0)*cos(2.d0*x(1)+1.d0-dexp(x(2)))
 
 end function
 !-----------------------------------------------------------------------------------------
