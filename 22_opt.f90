@@ -8,10 +8,10 @@ subroutine test_opt()
   implicit none
   integer, parameter :: d = 2 ! número de variáveis
   real(8), external :: ff ! funções cujo mínimo ou máximo queremos calcular
-  real(8) :: xi(d), xf(d) ! 
-  integer, parameter :: Nmax = 40 ! número máximo de iterações do gradiente descendente
+  real(8) :: xi(d), xf(d) !
+  integer, parameter :: Nmax = 100 ! número máximo de iterações do gradiente descendente
   real(8), parameter :: h = 0.001
-  real(8), parameter :: err = 0.00001 ! precisão (menor norma do gradiente)
+  real(8), parameter :: err = 1.d-8 ! precisão (menor norma do gradiente)
   real(8) :: xmin(d), xmax(d), dx(d), x(d)
   open(unit=13,file='opt_f.dat',status='unknown')
 
@@ -30,11 +30,12 @@ subroutine test_opt()
   end do do1
   close(13)
 
-  xi(1) = -15; xi(2) = -10 ! ponto inicial para o GD
+  xi(1) = -19; xi(2) = 19 ! ponto inicial para o GD
   call grad_desc(ff, d, xi, err, Nmax, h, xf)
   write(*,*) 'xf = ', xf, ', f(d,xf) =', ff(d,xf)
   call system("python3 23_opt.py &")
   call system("open -a skim opt.eps&")
+  !call system("evince opt.eps&")
 
 end subroutine
 !-----------------------------------------------------------------------------------------
@@ -52,25 +53,29 @@ subroutine grad_desc(f, d, xjm1, err, Nmax, h, xj) ! GD
   ! armazenamos os pontos passados durante a decida
   open(unit=13, file='opt_x.dat', status='unknown')
 
-  call gradiente(f, d, xjm1, h, gradjm1)
-  xj = xjm1 - 0.00001*gradjm1 ! usamos uma valor inicial pequeno para o passo
-  write(13,*) xj(1), xj(2)
-  call gradiente(f, d, xj, h, gradj)
-  dx = xj - xjm1
-  dg = gradj - gradjm1
-  gj = inner(d, dx, dg)/(norm(d, dg)**2) ! tamanho do passo
+  !call gradiente(f, d, xjm1, h, gradjm1)
+  !xj = xjm1 - 0.00001*gradjm1 ! usamos uma valor inicial pequeno para o passo
+  !write(13,*) xj(1), xj(2)
+  !call gradiente(f, d, xj, h, gradj)
+  !dx = xj - xjm1
+  !dg = gradj - gradjm1
+  !gj = inner(d, dx, dg)/(norm(d, dg)**2) ! tamanho do passo
+  xj = xjm1
+  gj = 1.d-2
   Nit = 0
   do
     Nit = Nit + 1
-    xjm1 = xj
-    gradjm1 = gradj
-    xj = xjm1 - gj*gradjm1 ! novo ponto
-    write(13,*) xj(1), xj(2)
+    !xjm1 = xj
+    !gradjm1 = gradj
+    !xj = xjm1 - gj*gradjm1 ! novo ponto
     call gradiente(f, d, xj, h, gradj)
-    dx = xj - xjm1
-    dg = gradj - gradjm1
-    gj = inner(d, dx, dg)/(norm(d, dg)**2) ! passo
-    write(*,*) 'Nit = ', Nit, ', xj = ', xj
+    xj = xj - gj*gradj
+    !dx = xj - xjm1
+    !dg = gradj - gradjm1
+    !gj = inner(d, dx, dg)/(norm(d, dg)**2) ! passo
+    !gj = 1.d-3
+    write(*,*) 'Nit = ', Nit, ', xj = ', xj, 'f(xj) = ', f(d,xj)
+    write(13,*) xj(1), xj(2)
     if (norm(d, gradj) < err .or. Nit > Nmax) exit
   end do
 

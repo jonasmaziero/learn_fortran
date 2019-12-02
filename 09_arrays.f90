@@ -1,8 +1,8 @@
 !-------------------------------------------------------------------------------
-program arrrays
+!program arrrays
   !call array1D()
-  call array2D()
-end program
+!  call array2D()
+!end program
 !-------------------------------------------------------------------------------
 subroutine array1D()
   implicit none

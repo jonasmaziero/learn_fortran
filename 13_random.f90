@@ -1,7 +1,7 @@
 !-------------------------------------------------------------------------------
-program rand
-  call random_tests()
-end program
+!program rand
+!  call random_tests()
+!end program
 !-------------------------------------------------------------------------------
 subroutine random_tests()
   implicit none
@@ -91,6 +91,7 @@ subroutine simula_dado(N,dp)
   dp = dp/dble(N)
   open(unit=13,file='dado.dat',status='unknown')
   do j = 1, 6; write(13,*) j, dp(j);  enddo
+  close(13)
 
 end subroutine
 !-------------------------------------------------------------------------------

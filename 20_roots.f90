@@ -37,7 +37,7 @@ subroutine roots_test()
   write(*,*) "Obtendo uma ou nenhuma raiz"
   xe = xi;  xd = xf ! intervalor no qual procuraremos as raízes
   err = 1.d-5;  Nm = 10**2  ! erro máximo e no. máximo de iterações
-  !call bissection(func, xe, xd, err, Nm, xrb, Er)
+  call bissection(func, xe, xd, err, Nm, xrb, Er)
   !write(*,*) "xrb = ", xrb, "f(xrb) = ", func(xrb)
   xk = -1.5d0
   call newton(func, xk, err, Nm, dx, xrn)

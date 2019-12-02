@@ -23,8 +23,8 @@ subroutine test_der_par()
     do2: do
       x(2) = x(2) + dx(2)
       if (x(2) > xmax(2)) exit do2
-      !der = der_par(ff,d,x,2,h); write(13,*) x(1), x(2), der, 6*x(2)
-      der = der_par(ff,d,x,1,h); write(13,*) x(1), x(2), der, 4*x(1)+1
+      der = der_par(ff,d,x,2,h); write(13,*) x(1), x(2), der, 6*x(2)
+      !der = der_par(ff,d,x,1,h); write(13,*) x(1), x(2), der, 4*x(1)+1
     end do do2
   end do do1
   close(13)
@@ -52,12 +52,18 @@ function der_par(f,d,x,j,h)  ! derivada parcial em relação a x_j
   integer :: d ! número de componentes do vetor x
   real(8) :: x(d) ! ponto no qual calculamos a derivada
   integer :: j ! componente na qual aplicamos a derivada
-  real(8) :: xpd(d) ! variável auxiliar
+  !real(8) :: xpd(d) ! variável auxiliar
   real(8) :: h ! delta para a derivada
 
-  xpd = x
-  xpd(j) = x(j) + h
-  der_par = (f(d,xpd) - f(d,x))/h
+  !xpd = x
+  !xpd(j) = x(j) + h
+  !der_par = (f(d,xpd) - f(d,x))/h
+  
+  x(j) = x(j) + h
+  der_par = f(d,x)
+  x(j) = x(j) - h
+  der_par = der_par - f(d,x)
+  der_par = der_par/h
 
 end function
 !-----------------------------------------------------------------------------------------

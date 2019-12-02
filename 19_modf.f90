@@ -20,6 +20,11 @@ contains ! tem que ter essa palavra antes dos subprogramas
     real(8) :: x, func2
 	func2 = x - dexp(-x)
   end function
+  
+  function func3(x)
+    implicit none
+  
+  end function
 
 end module
 !-------------------------------------------------------------------------------
