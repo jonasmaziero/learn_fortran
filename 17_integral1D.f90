@@ -1,8 +1,9 @@
-!-------------------------------------------------------------------------------
+include '16_modules.f90'
+!-----------------------------------------------------------------------------------------------------------------------------------
 program integrais ! gfortran 16_modules.o 17_integrals.f90
   call integral_tests()
 end program
-!-------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------------------
 subroutine integral_tests()
   use cte  ! para usar o módulo cte
   ! Antes compile com: gfortran -c 16_modules.f90
@@ -10,10 +11,14 @@ subroutine integral_tests()
   ! name.o são 'objetos', já compilados (em assembly)
   implicit none
   real(8) :: integral, a, b, delta, dx, integral_mc
-  real(8), external :: funcao, funcao2
+  real(8), external :: funcao, funcao2, gauss_dist
   integer :: N, M
-  open(unit=13,file="integral.dat",status="unknown")
 
+  !teste para a normalização da função Gaussiana
+  !write(*,*) integral(gauss_dist,-10.d0,10.d0,10000)
+  !stop
+
+  open(unit=13,file="integral.dat",status="unknown")
   M = 1000
   !write(*,*) pi
   N = 50 ! delta = (xN-x0)/N=(N*delta-)
@@ -38,7 +43,7 @@ subroutine integral_tests()
   call system("open -a skim integral.eps&")
 
 end subroutine
-!-------------------------------------------------------------------------------
+!-----------------------------------------------------------------------------------------------------------------------------------
 function integral(f,x0,xN,N)
   implicit none
   real(8) :: integral, x0, xN, delta
@@ -56,20 +61,20 @@ function integral(f,x0,xN,N)
   integral = integral*delta
 
 end function
-!-----------------------------------------------------------------------------------------------------------------------------------
-function integral_mc(f,x0,xN,N)
+!-----------------------------------------------------------------------------------------
+function integral_mc(f,x0,xN,N_mc)
   implicit none
-  real(8) :: integral, x0, xN, delta,rand_ab, rn, integral_mc
-  integer :: N, j
+  real(8) :: x0, xN,rand_ab, rn, integral_mc
+  integer :: N_mc, j
   real(8), external :: f
 
-  delta = (xN-x0)/dble(N)
-  integral = 0.d0
-  do j = 1, N
+  integral_mc = 0.d0
+  do j = 1, N_mc
     rn = rand_ab(x0,xN)
-    integral = integral + f(rn)
+    integral_mc = integral_mc + f(rn)
   end do
-  integral = integral*delta
+  integral_mc = integral_mc/N_mc
+  integral_mc = integral_mc*(xN-x0)
 
 end function
 !-------------------------------------------------------------------------------
@@ -92,5 +97,12 @@ function funcao2(x)
   implicit none
   real(8) :: funcao2, x
   funcao2 = x**2.d0/2.d0
+end function
+!-------------------------------------------------------------------------------
+function gauss_dist(x)
+  use cte
+  implicit none
+  real(8) :: gauss_dist, x
+  gauss_dist = (1.d0/dsqrt(2.d0*pi))*dexp(-x**2.d0/2.d0)
 end function
 !-------------------------------------------------------------------------------

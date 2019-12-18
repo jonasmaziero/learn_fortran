@@ -11,10 +11,10 @@ subroutine roots_test()
   integer :: Nm
   !real(8), external :: func ! não declara pois  está no módulo
   real(8) :: xe, xd
-  integer :: Er ! diz se há (=1) ou não (=0) raíz em um determinado intervalo
+  logical :: Er ! diz se há (=True) ou não (=False) raíz em um determinado intervalo
   open(unit=13,file="roots.dat",status="unknown")
 
-  xi = -3.d0;  xf = 2.5d0 ! intervalo para a procura da raíz
+  xi = -2.8608093261718750;  xf = 2.5d0 ! intervalo para a procura da raíz
   dx = 1.d-2;  x = xi-dx
   do
     x = x + dx
@@ -31,7 +31,7 @@ subroutine roots_test()
   close(14)
   call system("gnuplot roots.gnu")
   !call system("evince roots.eps&")
-  call system("open -a skim roots.eps&")
+  !call system("open -a skim roots.eps&")
  ! stop 
 !________________________________________
   write(*,*) "Obtendo uma ou nenhuma raiz"
@@ -41,7 +41,7 @@ subroutine roots_test()
   !write(*,*) "xrb = ", xrb, "f(xrb) = ", func(xrb)
   xk = -1.5d0
   call newton(func, xk, err, Nm, dx, xrn)
-  write(*,*) "xrn = ", xrn, "f(xrn) = ", func(xrn)
+  !write(*,*) "xrn = ", xrn, "f(xrn) = ", func(xrn)
   !stop
 !___________________________________
   write(*,*) "Obtendo várias raízes"
@@ -51,7 +51,7 @@ subroutine roots_test()
     xe = xe + del
     xd = xe + del
     call bissection(func, xe, xd, err, Nm, xrb, Er)
-    if (Er == 1) write(*,*) "xrb = ", xrb, "f(xrb) = ", func(xrb)
+    if ( Er ) write(*,*) "xrb = ", xrb, "f(xrb) = ", func(xrb)
     if ( xd > xf ) exit
   end do
 
@@ -67,10 +67,16 @@ subroutine bissection(f, xe, xd, err, Nm, xr, Er)
   real(8) :: dx ! largura atual do intervalo no qual procuramos a raíz
   integer :: Nm ! número máximo de iterações
   integer :: Ni ! número atual de iterações
-  integer :: Er ! se = 0 => não há raíz; se = 1 => há pelo menos uma raíz
+  logical :: Er ! diz se há (=True) ou não (=False) raíz em um determinado intervalo
 
   if1: if ( f(xe)*f(xd) > 0 ) then
-    Er = 0 !write(*,*) "Não há raíz nesse intervalo"
+    Er = .false. !write(*,*) "Não há raíz nesse intervalo"
+  else if ( abs(f(xe)) < 1.d-15) then
+    Er = .true.
+    xr = xe
+  !else if ( abs(f(xd)) < 1.d-15) then
+  !  Er = .true.
+  !  xr = xd
   else
     Ni = 0
     do1: do
@@ -91,7 +97,7 @@ subroutine bissection(f, xe, xd, err, Nm, xr, Er)
       if (Ni > Nm) exit do1 ! terceiro critério de parada
     end do do1
     xr = xm
-    Er = 1
+    Er = .true.
   end if if1
 
 end subroutine

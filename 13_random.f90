@@ -53,6 +53,15 @@ subroutine permutacao(d,perm) ! retorna uma pertmutação de (1,2,3,...,d)
 
 end subroutine
 !-------------------------------------------------------------------------------
+real function rand_ab(a,b)
+  implicit none
+  real :: a, b, rn
+
+  call random_number(rn)
+  rand_ab = a + (b-a)*rn
+
+end function
+!-------------------------------------------------------------------------------
 subroutine simula_moeda(N,dp)
   implicit none
   integer :: N  ! No. de lançamentos da moeda
