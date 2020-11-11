@@ -1,8 +1,30 @@
 include "15_derivada.f90"
 !-------------------------------------------------------------------------------
 program roots !gfortran 20_roots.f90 19_modf.o
-  call roots_test()
+  !call roots_test()
+  call barreira()
 end program
+!-------------------------------------------------------------------------------
+subroutine barreira() 
+implicit none
+real(8), external :: fb
+real(8) :: ce, xr
+logical :: Er
+  ce = 1.602d-19!; E = 4.d0*ce; write(*,*) fb(E)
+  call bissection(fb, 3.d0, 5.d0, 1.d-6, 10**3, xr, Er)
+  write(*,*) 'xr = ', xr
+end subroutine
+
+function fb(E)
+  implicit none
+  real(8) :: fb, E, pi, ce, a, me, hb, Uz, ke, kb
+    pi = 4.d0*atan(1.d0)!; write(*,*) 'pi = ',pi
+    ce = 1.602d-19; a = 0.6d-9; me = 9.11d-31; hb = 6.626069d-34/(2.d0*pi)
+    Uz = 9*ce; ke = sqrt(2.d0*me*E)/hb!; write(*,*) 'ke = ', ke
+    kb = sqrt((Uz/E)-1.d0)*ke
+    fb = 1.d0/(1.d0+((sinh(kb*a)**2.d0)*((kb**2.d0+ke**2.d0)**2.d0/(4.d0*kb**2.d0*ke**2.d0))))- 2.d0*4.231171982709953d-6
+end function
+
 !-------------------------------------------------------------------------------
 subroutine roots_test()
   use modf

@@ -18,13 +18,8 @@ contains ! tem que ter essa palavra antes dos subprogramas
   function func2(x)
     implicit none
     real(8) :: x, func2
-	func2 = x - dexp(-x)
+	    func2 = x - dexp(-x)
   end function
   
-  function func3(x)
-    implicit none
-  
-  end function
-
 end module
 !-------------------------------------------------------------------------------
